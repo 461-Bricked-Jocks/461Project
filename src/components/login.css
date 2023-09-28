@@ -1,0 +1,23 @@
+#back{
+    height: 100vh;
+    background-image: url(Background.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#login{
+    border: 5px solid;
+    background: white;
+    border-color: #BF5700;
+    border-radius: 25px;
+    width: 300px;
+    height: 320px;
+    align-items: center;
+    justify-content: center;
+    
+
+}
