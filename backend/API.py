@@ -11,15 +11,12 @@ app = Flask(__name__)
 def login():
     flag = "False"
     try:
-        if request.method == 'POST':                    # For debugging purposes  
+        if request.method == 'POST':                                            # For debugging purposes  
             data = request.get_json()
-            # username = request.form['Username']
-            # password = request.form['Password']
-            response = request.get_json("", json=data)
-            user = [{"Access": response}]
-            return jsonify(user, status=200,mimetype='application/json')        # Access database
+            response = Mongodb_Users.existingAccount(data)                         # Access database ->
+            return response
         else:
-            user =[{"Status": "work in progress"}]
+            user =[{"Status": "work in progress"}]                              # For debugging purposes
             return jsonify(user)
 
     except Exception as e:

@@ -3,6 +3,7 @@ from pymongo.mongo_client import MongoClient
 from flask import Flask, jsonify, request
 import pymongo
 
+
 uri = "mongodb+srv://Claudio98cm:AtlasCeltics08@users.wi78xyi.mongodb.net/?retryWrites=true&w=majority"
 # Create a new client and connect to the server
 client = MongoClient(uri)
@@ -37,6 +38,13 @@ if (x['username']=='cm'):
 else:
     print("Username not found\n")
 
+
+def existingAccount(loginAttempt):
+    if does_username_exist(loginAttempt['Username']):
+        if collection_users.find_one({"password": loginAttempt['Password']}):
+            return True
+    else:
+        return False
 
 ##checking if user exist or not
 def does_username_exist(username):
