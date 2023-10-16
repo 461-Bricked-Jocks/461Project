@@ -9,15 +9,13 @@
     align-items: center;
     justify-content: center;
 }
-#login{
+#project{
     border: 5px solid;
     background: white;
     border-color: #BF5700;
     border-radius: 25px;
-    width: 300px;
-    height: 320px;
+    width: 400px;
+    height: 380px;
     align-items: center;
     justify-content: center;
-
-
 }

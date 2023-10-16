@@ -1,7 +1,7 @@
 import React from 'react'
 import "./login.css";
 
-export default function Login() {
+export default function CreateUser() {
   return (
     <div id = "back">
 
@@ -10,15 +10,19 @@ export default function Login() {
         <label>Username   </label>
         <input type='text' name='user'></input>
         <br/><br/>
-        <label>Password   </label>
+        <label>Password</label>
+        <input type='password' name='user'></input>
+        <br/><br/>
+        <label>Re-enter Password</label>
         <input type='password' name='user'></input>
         <br/><br/>
         <button>Login</button>
         <br/><br/>
         <a href=''>Forgot Password</a>
         <br/><br/>
-        <a href='/Create-User'>Create New Account</a> <br />
+        <a href='/'>Sign in</a> <br />
       </div>
+
     </div>
   )
 }

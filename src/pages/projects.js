@@ -5,7 +5,7 @@ export default function Projects() {
     return (
         <div id = "back">
 
-            <div id = "login">
+            <div id = "project">
                 <h1>Create new Project</h1>
                 <label>Name   </label>
                 <input type='text' name='user'></input>
