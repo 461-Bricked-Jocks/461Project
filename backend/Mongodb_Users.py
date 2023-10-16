@@ -39,9 +39,9 @@ else:
     print("Username not found\n")
 
 
-def existingAccount(loginAttempt):
-    if does_username_exist(loginAttempt['Username']):
-        if collection_users.find_one({"password": loginAttempt['Password']}):
+def existingAccount(username, password):
+    if does_username_exist(username):
+        if collection_users.find_one({"username": username, "password": password}):
             return True
     else:
         return False
@@ -56,11 +56,12 @@ def create_user(username, password):
 
     if does_username_exist(username):
         print("Username taken")
-        return
+        return False
 
     #username unique
     collection_users.insert_one({"username": username, "password": password})
     print("User creation succesful")
+    return True
 
 if __name__ == '__main__':
     new_user = input("enter username: ")
