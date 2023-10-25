@@ -2,6 +2,7 @@ from pymongo.mongo_client import MongoClient
 
 from flask import Flask, jsonify, request
 import pymongo
+import cipher
 
 
 uri = "mongodb+srv://Claudio98cm:AtlasCeltics08@users.wi78xyi.mongodb.net/?retryWrites=true&w=majority"
@@ -40,11 +41,12 @@ else:
 
 
 def existingAccount(username, password):
+    username = cipher.encrypt(username)
+    password = cipher.encrypt(password)
     if does_username_exist(username):
-        if collection_users.find_one({"username": username, "password": password}):
+        if collection_users.find_one({"username": username, "password": password}) is not None:
             return True
-    else:
-        return False
+    return False
 
 ##checking if user exist or not
 def does_username_exist(username):
@@ -53,7 +55,8 @@ def does_username_exist(username):
 
 
 def create_user(username, password):
-
+    username = cipher.encrypt(username)
+    password = cipher.encrypt(password)
     if does_username_exist(username):
         print("Username taken")
         return False

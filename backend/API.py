@@ -12,7 +12,7 @@ def login():
     try:
         if request.method == 'POST':    # For debugging purposes  
             data = request.get_json()
-            response = Mongodb_Users.existingAccount(data["Username"], data["Password"]) 
+            response = Mongodb_Users.existingAccount(data["Username"], data["Password"])
             return response
         else:
             user =[{"Status": "work in progress"}]   # For debugging purposes
@@ -26,6 +26,16 @@ def create():
     try:
         data = request.get_json()
         response = Mongodb_Users.create_user(data["Username"], data["Password"])
+        return response
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+
+@app.route('/Projects', methods=["POST"])
+def create():
+    try:
+        data = request.get_json()
+        response = Mongodb_Hardware.collection_hardware() # In Progress
         return response
     except Exception as e:
         return jsonify({"error": str(e)}), 400
