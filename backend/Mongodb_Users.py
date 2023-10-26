@@ -21,8 +21,9 @@ data_base = client["Users"] #name of the database
 collection_users = data_base["user_password"] #name of collection
 #collection_users = data_base.user_password
 
+'''
 document_users = {"username": "cm", "password": "123"}
-#if (does_username_exist(document_users)):
+#if (does_username_exist(document_users["username"]):
 collection_users.insert_one(document_users)
 
 
@@ -37,7 +38,7 @@ if (x['username']=='cm'):
     print("username exist\n")
 else:
     print("Username not found\n")
-
+'''
 
 def existingAccount(username, password):
     if does_username_exist(username):
@@ -63,11 +64,18 @@ def create_user(username, password):
     print("User creation succesful")
     return True
 
+def login_user(username, password):
+    
+    if existingAccount(username, password):
+        print("Access granted")
+        return True
+
 if __name__ == '__main__':
     new_user = input("enter username: ")
     new_password = input("enter password: ")
 
     create_user(new_user, new_password)
+    login_user(new_user, new_password)
 
 
 

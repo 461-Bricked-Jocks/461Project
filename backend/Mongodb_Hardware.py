@@ -20,7 +20,8 @@ collection_hardware = data_base["hardware_set"] #name of collection
 
 #insert document in collection
 #change name to desciprion
-document_hardware = {"name": "project2", "capacity": "50", "availability": "50"}
+'''
+document_hardware = {"name": "Hardware Set 1", "capacity": "50", "availability": "50"}
 
 document_hardware_id = collection_hardware.insert_one(document_hardware).inserted_id
 print(document_hardware_id)
@@ -39,3 +40,11 @@ if (x['name']=='project1'):
     print("name exist\n")
 else:
     print("name not found\n")
+'''
+
+def main():
+    #queryHWSet1Availability()
+    print("aa")
+
+if __name__ == "__main__":
+    main()
