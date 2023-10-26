@@ -15,12 +15,11 @@ def login():
             response = Mongodb_Users.existingAccount(data["Username"], data["Password"])
             return response
         else:
-            user =[{"Status": "work in progress"}]   # For debugging purposes
+            user =[{"Status": "work in progress"}]   # For Testing Purposes
             return jsonify(user)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
-
 @app.route('/create', methods=["POST"])
 def create():
     try:
@@ -29,13 +28,45 @@ def create():
         return response
     except Exception as e:
         return jsonify({"error": str(e)}), 400
-    
-
+   
 @app.route('/Projects', methods=["POST"])
 def create():
     try:
         data = request.get_json()
-        response = Mongodb_Hardware.collection_hardware() # In Progress
+        response = Mongodb_Hardware.collection_hardware() # Work In Progress
+        return response
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@app.route('/New-Project', methods=["POST"])
+def create():
+    try:
+        data = request.get_json()
+        
+        # TODO
+        
+        return response
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/Checkout', methods=["POST"])
+def create():
+    try:
+        data = request.get_json()
+
+        # TODO
+
+        return response
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/Checkin', methods=["POST"])
+def create():
+    try:
+        data = request.get_json()
+
+        # TODO
+
         return response
     except Exception as e:
         return jsonify({"error": str(e)}), 400
