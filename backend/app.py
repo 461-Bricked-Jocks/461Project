@@ -30,10 +30,38 @@ def create():
         return jsonify({"error": str(e)}), 400
    
     
-@app.route('/New-Project', methods=["POST"]) # TODO
-def createProject():
+@app.route('/Projects', methods=["POST"]) # TODO Put Last three in one page
+def projectPage():
+    data = request.get_json()
+    method = data["Method"]
+    if method is "createProject":
+        response = createProject(data)
+    elif method is "checkin":
+        response = checkin(data)
+    elif method is "checkout":
+        response = checkout(data)
+    return response
+def createProject(data):
     try:
-        data = request.get_json()
+        
+        
+        # TODO
+        
+        return response
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+def checkin(data):
+    try:
+        
+        
+        # TODO
+        
+        return response
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400  
+def checkout(data):
+    try:
+        
         
         # TODO
         
@@ -41,27 +69,6 @@ def createProject():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
-@app.route('/Checkout', methods=["POST"]) # TODO
-def checkout():
-    try:
-        data = request.get_json()
-
-        # TODO
-
-        return response
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
-
-@app.route('/Checkin', methods=["POST"]) # TODO
-def checkin():
-    try:
-        data = request.get_json()
-
-        # TODO
-
-        return response
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
 
 if __name__ == '__main__':
     app.run(debug=True, port=2871)
