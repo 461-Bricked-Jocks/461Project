@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import datetime
 import Mongodb_Hardware
 import Mongodb_Users
+import Mongodb_Projects
 
 
 x = datetime.datetime.now()
@@ -40,6 +41,9 @@ def projectPage():
         response = checkin(data)
     elif method is "checkout":
         response = checkout(data)
+    else:
+        # TODO Return Project Data and Related Hardware Sets (I have questions)
+        response = []
     return response
 def createProject(data):
     try:
