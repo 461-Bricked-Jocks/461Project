@@ -17,7 +17,8 @@ class Login extends React.Component {
     // this.handleTextField = this.handleTextField.bind(this)
     this.state = {
       user: "",
-      pass: ""
+      pass: "",
+      success: false
     }
   }
   passwordHandler(){
@@ -35,8 +36,37 @@ class Login extends React.Component {
     })
   }
   login(){
-    console.log(this.state.user)
-    console.log(this.state.pass)
+    fetch("http://127.0.0.1:8000/login",{
+      method: "POST",
+      mode: "cors",
+      headers:{
+        'content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        Username: this.state.user,
+        Password: this.state.pass
+      })
+
+    })
+      .then(response => response.json())
+      // .then(data => this.handler(data["Access"]))
+      .then((success) => {
+        var Access = success['Access']
+        console.log(Access)
+        this.setState({
+          success : Access
+        })
+      })
+      setTimeout(() => {
+        if(this.state.success == true){
+          
+        }else{
+          window.alert("Incorrect username or password")
+        }
+      }, 100); // 2000 milliseconds = 2 seconds
+      
+
+
   }
 
   render(){
