@@ -42,6 +42,14 @@ else:
     print("name not found\n")
 '''
 
+def checkIn(name, qty): # TODO
+    hardwareSet = collection_hardware.find_one({"name": name})
+    availability = int(collection_hardware["availability"]) + qty # IDK if this the right way to get this value
+    availability = str(availability)
+    
+def checkOut(name, qty): # TODO
+    pass
+
 def main():
     #queryHWSet1Availability()
     print("aa")
