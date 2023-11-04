@@ -2,10 +2,17 @@ from pymongo.mongo_client import MongoClient
 
 from flask import Flask, jsonify, request
 import pymongo
+import cipher
+
+import dns.resolver
+dns.resolver.default_resolver=dns.resolver.Resolver(configure=False)
+dns.resolver.default_resolver.nameservers=['8.8.8.8']
 
 uri = "mongodb+srv://Claudio98cm:AtlasCeltics08@users.wi78xyi.mongodb.net/?retryWrites=true&w=majority"
 # Create a new client and connect to the server
-client = MongoClient(uri)
+client = MongoClient(uri,
+                    tls=True,
+                    tlsAllowInvalidCertificates=True)
 # Send a ping to confirm a successful connection
 try:
     client.admin.command('ping')
@@ -55,6 +62,10 @@ def login_projectid(projectid):
 
     print("projectid doesn't exist")
     return False
+
+def projectList(username, password):
+    username = chiper
+    return response
 
 ######## TODO Join & Leave Project ##############
 
