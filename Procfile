@@ -1,2 +1,2 @@
 web: npm start
-flask run
+server: cd backend && flask run
