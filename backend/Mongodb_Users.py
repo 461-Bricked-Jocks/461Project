@@ -4,10 +4,16 @@ from flask import Flask, jsonify, request
 import pymongo
 import cipher
 
+import dns.resolver
+dns.resolver.default_resolver=dns.resolver.Resolver(configure=False)
+dns.resolver.default_resolver.nameservers=['8.8.8.8']
+
 
 uri = "mongodb+srv://Claudio98cm:AtlasCeltics08@users.wi78xyi.mongodb.net/?retryWrites=true&w=majority"
 # Create a new client and connect to the server
-client = MongoClient(uri)
+client = MongoClient(uri,
+                    tls=True,
+                    tlsAllowInvalidCertificates=True)
 # Send a ping to confirm a successful connection
 try:
     client.admin.command('ping')
@@ -42,8 +48,8 @@ else:
 '''
 
 def existingAccount(username, password):
-    username = cipher.encrypt(username)
-    password = cipher.encrypt(password)
+    username = cipher.encrypt(username,3,1)
+    password = cipher.encrypt(password,3,1)
     if does_username_exist(username):
         if collection_users.find_one({"username": username, "password": password}) is not None:
             data = collection_users.find_one({"username": username, "password": password})['projects']
@@ -59,8 +65,8 @@ def does_username_exist(username):
 
 
 def create_user(username, password):
-    username = cipher.encrypt(username)
-    password = cipher.encrypt(password)
+    username = cipher.encrypt(username,3,1)
+    password = cipher.encrypt(password,3,1)
     if does_username_exist(username):
         # print("Username taken")
         response = {"Access": False}
