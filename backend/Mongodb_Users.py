@@ -54,12 +54,25 @@ def existingAccount(username, password):
         response = {"Access": True}
     else:
         response = {"Access": False}
+    if does_username_exist(username):
+        if collection_users.find_one({"username": username, "password": password}) is not None:
+            data = collection_users.find_one({"username": username, "password": password})['projects']
+            print(data)
+            response = {"Access": True, "Projects": data}
+            return response
+    response = {"Access": False}
     return response
 
 ##checking if user exist or not
 def does_username_exist(username):
     existing_user = collection_users.find_one({"username": username})
-    return existing_user is not None
+    if(existing_user is None):
+        return False
+    
+    else:
+        return True
+    
+    
 
 
 def create_user(username, password):

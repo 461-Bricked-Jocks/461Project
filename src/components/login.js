@@ -1,5 +1,7 @@
 import React from 'react'
 import "./login.css";
+import { BrowserRouter as Routes, Route, useNavigate, Link } from "react-router-dom";
+import Projects from '../pages/projects';
 // import { render } from '@testing-library/react';
 
 
@@ -11,10 +13,6 @@ class Login extends React.Component {
     this.login = this.login.bind(this)
     this.passwordHandler = this.passwordHandler.bind(this)
     this.usernameHandler = this.usernameHandler.bind(this)
-    // this.checkIn = this.checkIn.bind(this)
-    // this.checkOut = this.checkOut.bind(this)
-    // this.join = this.join.bind(this)
-    // this.handleTextField = this.handleTextField.bind(this)
     this.state = {
       user: "",
       pass: "",
@@ -58,15 +56,18 @@ class Login extends React.Component {
         })
       })
       setTimeout(() => {
-        if(this.state.success == true){
-          
+        if(this.state.success === true){
+          window.alert("successfully signed in")
         }else{
-          window.alert("Incorrect username or password")
+          alert("Incorrect username or password")
         }
-      }, 100); // 2000 milliseconds = 2 seconds
+      }, 500); // 2000 milliseconds = 2 seconds
       
 
 
+  }
+  test(){
+    return <Link to={"/projects"}>herllo</Link>
   }
 
   render(){
@@ -82,10 +83,11 @@ class Login extends React.Component {
           <input id="password" type='password' name='user' value={this.pass} onChange={this.passwordHandler}></input>
           <br/><br/>
           <button onClick={this.login} id='loginBtn'>Login</button>
+          <button onClick={this.test}>test</button>
           <br/><br/>
-          <a href=''>Forgot Password</a>
+          <Link to={"/projects"}>Forgot Password</Link>
           <br/><br/>
-          <a href='/Create-User'>Create New Account</a> <br />
+          <Link to='/Create-User'>Create New Account</Link> <br />
         </div>
       </div>
     )
