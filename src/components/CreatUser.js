@@ -81,8 +81,8 @@ class CreateUser extends React.Component {
         'content-Type':'application/json'
       },
       body: JSON.stringify({
-        Username: this.state.user,
-        Password: this.state.pass
+        Username: user,
+        Password: pass1
       })
 
     })
@@ -101,7 +101,7 @@ class CreateUser extends React.Component {
         }else{
           window.alert("Username already exists")
         }
-      }, 2000); // 2000 milliseconds = 2 seconds
+      }, 500); // 2000 milliseconds = 2 seconds
       
 
 

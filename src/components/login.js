@@ -13,10 +13,6 @@ class Login extends React.Component {
     this.login = this.login.bind(this)
     this.passwordHandler = this.passwordHandler.bind(this)
     this.usernameHandler = this.usernameHandler.bind(this)
-    // this.checkIn = this.checkIn.bind(this)
-    // this.checkOut = this.checkOut.bind(this)
-    // this.join = this.join.bind(this)
-    // this.handleTextField = this.handleTextField.bind(this)
     this.state = {
       user: "",
       pass: "",
@@ -65,7 +61,7 @@ class Login extends React.Component {
         }else{
           alert("Incorrect username or password")
         }
-      }, 100); // 2000 milliseconds = 2 seconds
+      }, 500); // 2000 milliseconds = 2 seconds
       
 
 
