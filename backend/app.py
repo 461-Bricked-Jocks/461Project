@@ -34,45 +34,12 @@ def create():
         return jsonify({"error": str(e)}), 400
    
     
-@app.route('/Projects', methods=["POST"]) # TODO Put Last three in one page
+@app.route('/projectPage', methods=["POST"]) # TODO Put Last three in one page
 def projectPage():
-    data = request.get_json()
-    method = data["Method"]
-    if method is "createProject":
-        response = createProject(data)
-    elif method is "checkin":
-        response = checkin(data)
-    elif method is "checkout":
-        response = checkout(data)
-    else:
-        # TODO Return Project Data and Related Hardware Sets (I have questions)
-        response = []
-    return response
-def createProject(data):
-    try:
-        
-        
-        # TODO
-        
-        return response
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
-def checkin(data):
     try:
         data = request.get_json()
-
-        # TODO
-        
-        
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400  
-def checkout(data):
-    try:
-        data = request.get_json()
-        
-        # TODO
-        
-
+        response = Mongodb_Projects.projectList
+        return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
