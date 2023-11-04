@@ -45,20 +45,20 @@ def projectPage():
     return response
 def checkin(data):
     try:
-        
-        
+        data = request.get_json()
+
         # TODO
         
-        return response
+        
     except Exception as e:
         return jsonify({"error": str(e)}), 400  
 def checkout(data):
     try:
-        
+        data = request.get_json()
         
         # TODO
         
-        return response
+
     except Exception as e:
         return jsonify({"error": str(e)}), 400
 
