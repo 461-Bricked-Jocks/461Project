@@ -50,12 +50,10 @@ else:
 def existingAccount(username, password):
     username = cipher.encrypt(username,3,1)
     password = cipher.encrypt(password,3,1)
-    if does_username_exist(username):
-        if collection_users.find_one({"username": username, "password": password}) is not None:
-            data = collection_users.find_one({"username": username, "password": password})['projects']
-            response = {"Access": True, "Projects": data}
-            return response
-    response = {"Access": False}
+    if collection_users.find_one({"username": username, "password": password}) is not None:
+        response = {"Access": True}
+    else:
+        response = {"Access": False}
     return response
 
 ##checking if user exist or not
@@ -78,13 +76,6 @@ def create_user(username, password):
     # print("User creation succesful")
     response = {"Access": True}
     return response
-
-
-def login_user(username, password):
-    
-    if existingAccount(username, password):
-        print("Access granted")
-        return True
 
 if __name__ == '__main__':
     new_user = input("enter username: ")

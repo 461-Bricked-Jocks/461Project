@@ -2,6 +2,7 @@ from pymongo.mongo_client import MongoClient
 
 from flask import Flask, jsonify, request
 import pymongo
+import cipher
 
 import dns.resolver
 dns.resolver.default_resolver=dns.resolver.Resolver(configure=False)
@@ -61,6 +62,10 @@ def login_projectid(projectid):
 
     print("projectid doesn't exist")
     return False
+
+def projectList(username, password):
+    username = chiper
+    return response
 
 ######## TODO Join & Leave Project ##############
 
