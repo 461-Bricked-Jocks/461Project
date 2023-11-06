@@ -9,6 +9,7 @@ class ProjectPage extends React.Component{
         let params = new URLSearchParams(window.location.search)
         let username = params.get("Username")
         let password = params.get("Password")
+        this.create = this.create.bind(this)
 
         this.state = {
             user : username,
@@ -49,6 +50,9 @@ class ProjectPage extends React.Component{
         ));
         return list
     }
+    create(){
+        window.location.replace(`/Projects?Username=${this.state.user}&Password=${this.state.pass}`)
+    }
 
 
     render(){
@@ -57,6 +61,7 @@ class ProjectPage extends React.Component{
                 <div className='projectPage2'>
                     <header>
                         <h1>Projects</h1>
+                        <button id='createProj' onClick={this.create}>Create/Join Project</button>
                         <hr></hr>
                     </header>
                     <ul>

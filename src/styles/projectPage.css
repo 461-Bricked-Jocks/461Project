@@ -22,9 +22,16 @@
 }
 header{
     text-align: center;
+    height: 50px;
+}
+hr{
+    position: relative;
+    bottom: 50px;
+    color: #000000;
 }
 #projName{
-    text-align: left;
+    text-align: center;
+    font-size: x-large;
     margin-left: 10px;
 }
 .Button{
@@ -53,4 +60,17 @@ header{
     border-color: #BF5700;
     border-radius: 5px;
     background-color: #ed8632;
+}
+#HWSets{
+    display: flex;
+    justify-content: space-evenly;   
+}
+#createProj{
+    position: relative;
+    left:600px;
+    bottom: 50px;
+    font-size: large;
+}
+.HWSet{
+       margin: 5px;
 }

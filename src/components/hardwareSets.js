@@ -12,25 +12,17 @@ class HardwareSet extends React.Component{
         // this.handleTextField = this.handleTextField.bind(this)
         this.state = {
             checkedOut: 0,
-            TextFieldValue: document.getElementById("amount"),
+            TextFieldValue: 0,
             butt: "Join",
             data: {}
         }
     }
     checkOut(){
-        // fetch("http://127.0.0.1:8000/join?projectId=project1&qty=1",{
-        //   method: "GET",
-        //   mode: "cors"
-
-        // })
-        //   .then(response => response.json())
-        //   .then(d => {
-        //     this.setState({data:d})
-        //     console.log(d)
-        //     console.log(this.state.data)
-        //   })
-        var newCheckedOut = this.state.checkedOut + 1
-
+        let input = Number(document.getElementById("amount").value)
+        console.log(input)
+        let newCheckedOut = this.state.checkedOut + input
+        console.log(newCheckedOut)
+        
         if(newCheckedOut <= this.props.capacity){
             this.setState({
             checkedOut: newCheckedOut
@@ -38,18 +30,8 @@ class HardwareSet extends React.Component{
         }
     }
     checkIn(){
-        // fetch("http://127.0.0.1:8000/join?projectId=project1&qty=1",{
-        //   method: "GET",
-        //   mode: "cors"
-    
-        // })
-        //   .then(response => response.json())
-        //   .then(d => {
-        //     this.setState({data:d})
-        //     console.log(d)
-        //     console.log(this.state.data)
-        //   })
-        var newCheckedOut = this.state.checkedOut - 1
+        let input = Number(document.getElementById("amount").value)
+        let newCheckedOut = this.state.checkedOut - input
         if(newCheckedOut >= 0){
           this.setState({
             checkedOut: newCheckedOut
@@ -62,7 +44,7 @@ class HardwareSet extends React.Component{
     render(){
         return(
             <div>
-                <h3 className='HW'>HardWare Set 1:</h3>
+                <h3 className='HW'>{this.props.name}:</h3>
                 <h4 className='HW'>Capacity: {this.props.capacity}</h4>
                 <h4 className='HW'>checkedOut: {this.state.checkedOut}</h4>
                 <br/>
@@ -82,15 +64,16 @@ class HardwareSet extends React.Component{
                 </button>
                 {/* <button id='join' onClick={this.join}>{this.state.butt}</button> */}
                 <br/>
-                {/* <input
-                label="amount" 
-                type='number'
-                id='amount'
-                value={this.state.TextFieldValue}
-                onChange={this.handleTextField}/>
+                <input
+                    label="amount" 
+                    type='number'
+                    id='amount'
+                    // value={this.state.TextFieldValue}
+                    // onChange={this.handleTextField}
+                    />
                 <br/>
-                <TextField variant="outlined" label="amount" className='TextField'/> */}
-                <h3 className='HW'>HardWare Set 2:</h3>
+                {/* <TextField variant="outlined" label="amount" className='TextField'/> */}
+                {/* <h3 className='HW'>HardWare Set 2:</h3>
                 <h4 className='HW'>Capacity: {this.props.capacity}</h4>
                 <h4 className='HW'>checkedOut: {this.state.checkedOut}</h4>
                 <br/>
@@ -107,7 +90,7 @@ class HardwareSet extends React.Component{
                     onClick={this.checkOut}
                     className="Button">
                     Check-out
-                </button>
+                </button> */}
             </div>
 
         )
