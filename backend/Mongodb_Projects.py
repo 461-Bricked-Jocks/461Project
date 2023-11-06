@@ -29,18 +29,17 @@ document_project = {"Name": "Project 1", "Description": "app", "ProjectID": "000
 
 def does_project_nameexist(name):
     existing_name = collection_projects.find_one({"Name": name})
-    return existing_name is not None
+    if existing_name is None:
+        return False
+    else:
+        return True
 
 def does_project_IDexist(projectid):
     existing_projectid = collection_projects.find_one({"ProjectID": projectid})
-    return existing_projectid is not None
-
-#joining exisitng project
-def existing_project(projectid):
-    if does_project_IDexist(projectid):
-        return True
-    else:
+    if existing_projectid is None:
         return False
+    else:
+        return True
 
 def create_project(name, description, projectid):
     if does_project_nameexist(name):
@@ -55,19 +54,29 @@ def create_project(name, description, projectid):
     print("project creation succesful")
     return True
 
-def login_projectid(projectid):
-    if (existing_project(projectid)):
-        print("project access granted")
-        return True
+def join_projectid(projectName):
+    if (does_project_nameexist(projectName)):
+        data = collection_projects.find_one({"Name": projectName})
+        response = {"Name": data["Name"], "Description": data["Description"]}  # TODO 
+        return 
+    else:
+        response = {"Access": False }
+        return response
 
-    print("projectid doesn't exist")
-    return False
+def projectList(username, password): #  TODO Incomplete need to return all the project names, description, hardware sets
+    username = cipher.encrypt(username,3,1)
+    password = cipher.encrypt(password,3,1)
+    try:
+        collections = client["Users"] #name of the database
+        collection_users = collections["user_password"] #name of collection
+        projects = collection_users.find_one({"username": username, "password": password})["projects"]
+        return projects
+    except Exception as e:
+        print(f'Error accessing the users collection: {e}')
 
-def projectList(username, password):
-    username = chiper
-    return response
+# TODO Return All the project names, description, hardware sets
 
-######## TODO Join & Leave Project ##############
+######## TODO Leave Project ##############
 
 
 if __name__ == '__main__':
