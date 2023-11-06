@@ -1,7 +1,7 @@
 import React from 'react'
-import "./login.css";
+import "../styles/login.css";
 import { BrowserRouter as Routes, Route, useNavigate, Link, Navigate } from "react-router-dom";
-import Projects from '../pages/projects';
+import Projects from './projects';
 // import { render } from '@testing-library/react';
 
 

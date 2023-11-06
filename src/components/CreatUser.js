@@ -1,5 +1,5 @@
 import React from 'react'
-import "./login.css";
+import "../styles/login.css";
 import { BrowserRouter as Routes, Route, useNavigate, Link } from "react-router-dom";
 class CreateUser extends React.Component {
   constructor(props){
