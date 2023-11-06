@@ -38,7 +38,7 @@ def create():
 def projectPage():
     try:
         data = request.get_json()
-        response = Mongodb_Projects.projectList
+        response = Mongodb_Projects.projectList(data["Username"], data["Password"])
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
