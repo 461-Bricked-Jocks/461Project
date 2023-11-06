@@ -1,0 +1,56 @@
+.projectPage{
+    background-color: rgb(251, 202, 150);
+    height: 100vh;
+    background-size: cover;
+    display: flex;
+}
+.projectPage2{
+    background-color: rgb(251, 202, 150);
+    height: 100%;
+    width: 100%;
+    margin: 0px;
+    background-size: cover;
+}
+.project{
+    background-color: rgb(251, 202, 150);
+    margin-left: 0px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgb(191, 87, 0);
+}
+header{
+    text-align: center;
+}
+#projName{
+    text-align: left;
+    margin-left: 10px;
+}
+.Button{
+    color: #BF5700;
+    position: relative;
+    left: 10px;
+    bottom: 20px;
+}
+.HW{
+    text-align: left;
+    margin-left: 10px;
+}
+.TextField{
+    position: relative;
+    left: 150px;
+    bottom: 120px;
+    border-width: 5px;
+}
+#join{
+    color: #000000;
+    position: relative;
+    left: 50px;
+    font-size: x-large;
+    bottom: 213px;
+    border-width: 2px;
+    border-color: #BF5700;
+    border-radius: 5px;
+    background-color: #ed8632;
+}
