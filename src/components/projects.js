@@ -25,7 +25,6 @@ export default function Projects() {
                 <button>Enter</button>
                 <br></br>
             </div>
-
         </div>
     )
 }

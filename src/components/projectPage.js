@@ -1,6 +1,5 @@
 import React from 'react'
 import "../styles/projectPage.css";
-import { BrowserRouter as Routes, Route, useNavigate, Link, Navigate } from "react-router-dom";
 import Project from './project';
 
 class ProjectPage extends React.Component{

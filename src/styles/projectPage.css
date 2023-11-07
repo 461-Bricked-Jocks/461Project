@@ -10,6 +10,8 @@
     width: 100%;
     margin: 0px;
     background-size: cover;
+    position: absolute;
+    overflow: scroll;
 }
 .project{
     background-color: rgb(251, 202, 150);
@@ -29,10 +31,18 @@ hr{
     bottom: 50px;
     color: #000000;
 }
-#projName{
+.project{
     text-align: center;
     font-size: x-large;
     margin-left: 10px;
+}
+.description{
+    color :#000000;
+    text-align: center;
+    margin-left: 10px;
+    position:relative;
+    bottom: 50px;
+
 }
 .Button{
     color: #BF5700;
@@ -49,13 +59,12 @@ hr{
     left: 150px;
     bottom: 120px;
     border-width: 5px;
-}
-#join{
+}.leave{
     color: #000000;
     position: relative;
-    left: 50px;
+    left: 600px;
     font-size: x-large;
-    bottom: 213px;
+    bottom: 70px;
     border-width: 2px;
     border-color: #BF5700;
     border-radius: 5px;
@@ -63,7 +72,9 @@ hr{
 }
 #HWSets{
     display: flex;
-    justify-content: space-evenly;   
+    justify-content: space-evenly;
+    position: relative;
+    bottom: 20px;
 }
 #createProj{
     position: relative;
@@ -71,6 +82,7 @@ hr{
     bottom: 50px;
     font-size: large;
 }
+
 .HWSet{
        margin: 5px;
 }
