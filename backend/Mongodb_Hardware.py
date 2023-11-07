@@ -48,17 +48,96 @@ else:
     print("name not found\n")
 '''
 
-def checkIn(name, qty): # TODO
+def checkIn(name, qty): #todo
     hardwareSet = collection_hardware.find_one({"name": name})
-    availability = int(collection_hardware["availability"]) + qty # IDK if this the right way to get this value
-    availability = str(availability)
+    if hardwareSet:
+        avilability = hardwareSet["availability"]
+        capacity = hardwareSet["capacity"]
+        
+        if int(qty) >= 0: 
+            #if(qty > )
+            avilability = int(avilability) + int(qty) # IDK if this the right way to get this value
+            if (avilability <= int(capacity)):
+                collection_hardware.update_one({"name": name}, {"$set": {"availability": str(avilability)}}) 
+                response = {"availability": avilability}
+            else:
+                collection_hardware.update_one({"name": name}, {"$set": {"availability": str(capacity)}}) 
+                response = {"Error Hardware set": "more than original capacity"}
+                print(response)
+
+
+        else:
+            response = {"Error Hardware set": "qty error"}
+            print(response)
+
+    else:
+        response = {"Error Hardware set": "name error"}
+        print(response)
     
-def checkOut(name, qty): # TODO
-    pass
+
+    
+def checkOut(name, qty): #todo
+    hardwareSet = collection_hardware.find_one({"name": name})
+    if hardwareSet:
+        avilability = hardwareSet["availability"]
+
+        if int(qty) >= 0:
+            if(qty > avilability):
+                avilability = int(avilability) - int(avilability)
+ 
+            #avilability =  int(avilability) - int(qty)
+    
+                collection_hardware.update_one({"name": name}, {"$set": {"availability": str(avilability)}}) 
+                response = {"availability": avilability}
+            else:
+                avilability =  int(avilability) - int(qty)
+
+
+                #print(avilability, 'here')
+                collection_hardware.update_one({"name": name}, {"$set": {"availability": str(avilability)}}) 
+
+                response = {"availability": avilability}
+        else:
+            response = {"Error Hardware set": "qty error"}
+            print(response)
+    else:
+        response = {"Error Hardware set": "name error"}
+        print(response)
+    
+    return response
+
+def availability_capacity(name): #todo
+    hardwareSet = collection_hardware.find_one({"name": name})
+    if hardwareSet:
+        avilability = hardwareSet["availability"]
+        capacity = hardwareSet["capacity"]
+   
+        print("capacity: ", capacity)
+        response = {"Access": True, "availability": avilability, "capacity": capacity}
+        print(response)
+    else:
+        response = {"Access": False, "Error Hardware set": "error" }
+        print(response)
+        
+    return response
+
+
 
 def main():
     #queryHWSet1Availability()
-    print("aa")
+    projectHardware_name = input("enter projectHardware: ")
+    availability_capacity(projectHardware_name)
+    in_0 = input("enter amount checkIn: ")
+    checkIn(projectHardware_name, in_0)
+    #checkOut(projectHardware_name, 30)
+    #availability_capacity(projectHardware_name)
+    #checkIn(projectHardware_name, 20)
+    #availability_capacity(projectHardware_name)
+    in_1 = input("enter amount checkOut: ")
+    checkOut(projectHardware_name, in_1)
+   
+   
+    availability_capacity(projectHardware_name)
 
 if __name__ == "__main__":
     main()
