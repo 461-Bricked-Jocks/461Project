@@ -4,6 +4,7 @@ from flask import Flask, jsonify, request
 import pymongo
 import cipher
 
+import Mongodb_Hardware
 import dns.resolver
 dns.resolver.default_resolver=dns.resolver.Resolver(configure=False)
 dns.resolver.default_resolver.nameservers=['8.8.8.8']
@@ -41,51 +42,115 @@ def does_project_IDexist(projectid):
     else:
         return True
 
-def create_project(name, description, projectid):
+def create_project(name, description):
     if does_project_nameexist(name):
-        print("Project name taken")
-        return False
+        response = {"Access": False}
+        return response
     
-    if does_project_IDexist(projectid):
-        print("projectid taken")
-        return False
+    # if does_project_IDexist(projectid):
+    #     print("projectid taken")
+    #     return False
     
-    collection_projects.insert_one({"Name": name, "Description": description, "ProjectID": projectid})
-    print("project creation succesful")
-    return True
+    collection_projects.insert_one({"Name": name, "Description": description, "Users": []})
+    response = {"Access": True}
+    return response
 
-def join_projectid(projectName):
+def join_project(username, password, projectName):
+    if  username in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
+        response = {"Access": False }
+        return response
     if (does_project_nameexist(projectName)):
-        data = collection_projects.find_one({"Name": projectName})
-        response = {"Name": data["Name"], "Description": data["Description"]}  # TODO 
-        return 
+        data = collection_projects.find_one({"Name": projectName})["_id"]
+        query = {"_id": data}
+        update = {
+            "$push": {
+                "Users": username
+            }
+        }
+        collection_projects.update_one(query, update)
+        
+        collections = client["Users"] #name of the database
+        collection_users = collections["user_password"] #name of collection
+        data = collection_users.find_one({"username": username, "password": password})["_id"]
+        query = {"_id": data}
+        update = {
+            "$push": {
+                "projects": projectName
+            }
+        }
+        collection_projects.update_one(query, update)
+    else:
+        response = {"Access": False }
+        return response
+    
+def leave_project(username, password, projectName):
+    if  username not in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
+        response = {"Access": False }
+        return response
+    if (does_project_nameexist(projectName)):
+        data = collection_projects.find_one({"Name": projectName})["_id"]
+        query = {"_id": data}
+        update = {
+            "$pull": {
+                "Users": username
+            }
+        }
+        collection_projects.update_one(query, update)
+        
+        collections = client["Users"] #name of the database
+        collection_users = collections["user_password"] #name of collection
+        data = collection_users.find_one({"username": username, "password": password})["_id"]
+        query = {"_id": data}
+        update = {
+            "$pull": {
+                "projects": projectName
+            }
+        }
+        collection_projects.update_one(query, update)
     else:
         response = {"Access": False }
         return response
 
-def projectList(username, password): #  TODO Incomplete need to return all the project names, description, hardware sets
-    username = cipher.encrypt(username,3,1)
-    password = cipher.encrypt(password,3,1)
+def projectList(username, password): #  TODO Do I need to encrpty again?
+    # username = cipher.encrypt(username,3,1)
+    # password = cipher.encrypt(password,3,1)
     try:
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
-        projects = collection_users.find_one({"username": username, "password": password})["projects"]
-        return projects
+        project_list = collection_users.find_one({"username": username, "password": password})["projects"]
+        
+        mylist = []
+        for project in project_list:
+            info_list = []
+            info_list.append(project)
+            info_list.append(collection_projects.find_one({"name": project})["Description"])
+
+            hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 1")
+            info_list.append(hardwareData["capacity"])
+            info_list.append(hardwareData["availability"])
+
+            hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 2")
+            info_list.append(hardwareData["capacity"])
+            info_list.append(hardwareData["availability"])
+            
+            mylist.append(info_list)
+            
+        response = {"projectList": mylist}
+        return response
     except Exception as e:
         print(f'Error accessing the users collection: {e}')
 
-# TODO Return All the project names, description, hardware sets
+# if __name__ == '__main__':
 
-######## TODO Leave Project ##############
-
-
-if __name__ == '__main__':
-
-    new_project_name = input("enter project name: ")
-    new_project_description = input("enter project description: ")
-    new_project_id = input("enter project id: ")
-
-    create_project(new_project_name, new_project_description, new_project_id)
-
-    existing_project_id = input("enter project id: ")
-    login_projectid(existing_project_id)
+#     # collection_projects.insert_one({"Name": "Project5", "Description": "Minecraft", "ProjectID": "005", "Users": []})
+#     data = collection_projects.find_one({"Name": "Project5", "Description": "Minecraft", "ProjectID": "005", "Users": []})["_id"]
+#     print(data)
+#     query = {"_id": data}
+#     qty = 5
+#     update = {
+#         "$push": {
+#             "Users": qty
+#         }
+#     }
+#     result = collection_projects.update_one(query, update)
+#     print(result)

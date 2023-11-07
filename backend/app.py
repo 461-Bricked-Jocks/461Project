@@ -34,11 +34,65 @@ def create():
         return jsonify({"error": str(e)}), 400
    
     
-@app.route('/projectPage', methods=["POST"]) # TODO Put Last three in one page
+@app.route('/projectPage', methods=["POST"])
 def projectPage():
     try:
         data = request.get_json()
         response = Mongodb_Projects.projectList(data["Username"], data["Password"])
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@app.route('/createProject', methods=["POST"])
+def projectPage():
+    try:
+        data = request.get_json()
+        response = Mongodb_Projects.create_project(data["ProjectName"], data["Description"])
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@app.route('/leaveProject', methods=["POST"])
+def projectPage():
+    try:
+        data = request.get_json()
+        response = Mongodb_Projects.leave_project(data["Username"], data["Password"], data["projectName"])
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/joinProject', methods=["POST"])
+def projectPage():
+    try:
+        data = request.get_json()
+        response = Mongodb_Projects.join_project(data["Username"], data["Password"], data["projectName"])
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@app.route('/availabilityCapacity', methods=["POST"])
+def projectPage():
+    try:
+        data = request.get_json()
+        response = Mongodb_Hardware.availability_capacity(data["HardwareSet"])
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+    
+@app.route('/checkIn', methods=["POST"])
+def projectPage():
+    try:
+        data = request.get_json()
+        response = Mongodb_Hardware.checkIn({data["HardwareSet"], data["qty"]})
+        return jsonify(response)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/checkOut', methods=["POST"])
+def projectPage():
+    try:
+        data = request.get_json()
+        response = Mongodb_Hardware.checkOut({data["HardwareSet"], data["qty"]})
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
