@@ -55,7 +55,7 @@ def create_project(name, description):
     response = {"Access": True}
     return response
 
-def join_project(username, password, projectName):
+def join_project(username, projectName):
     if  username in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
         response = {"Access": False }
         return response
@@ -71,7 +71,7 @@ def join_project(username, password, projectName):
         
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
-        data = collection_users.find_one({"username": username, "password": password})["_id"]
+        data = collection_users.find_one({"username": username})["_id"]
         query = {"_id": data}
         update = {
             "$push": {
@@ -83,10 +83,10 @@ def join_project(username, password, projectName):
         response = {"Access": False }
         return response
     
-def leave_project(username, password, projectName):
-
-    # TODO Don't Leave unless there exists more than 1 user
-    
+def leave_project(username, projectName):
+    if len(collection_projects.find_one({"Name": projectList})) == 1:
+        response = {"Access": False}
+        return response
     if  username not in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
         response = {"Access": False }
         return response
@@ -102,7 +102,7 @@ def leave_project(username, password, projectName):
         
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
-        data = collection_users.find_one({"username": username, "password": password})["_id"]
+        data = collection_users.find_one({"username": username})["_id"]
         query = {"_id": data}
         update = {
             "$pull": {
@@ -114,13 +114,15 @@ def leave_project(username, password, projectName):
         response = {"Access": False }
         return response
 
-def projectList(username, password): #  TODO Do I need to encrpty again?
-    # username = cipher.encrypt(username,3,1)
-    # password = cipher.encrypt(password,3,1)
+def projectList(username):
+
+    # TODO need to specify how much each project has it owned specifically
+    # TODO No need for password in this file
+
     try:
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
-        project_list = collection_users.find_one({"username": username, "password": password})["projects"]
+        project_list = collection_users.find_one({"username": username})["projects"]
         
         mylist = []
         for project in project_list:

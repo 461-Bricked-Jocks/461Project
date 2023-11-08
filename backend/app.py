@@ -38,7 +38,7 @@ def create():
 def projectPage():
     try:
         data = request.get_json()
-        response = Mongodb_Projects.projectList(data["Username"], data["Password"])
+        response = Mongodb_Projects.projectList(data["Username"])
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
@@ -56,7 +56,7 @@ def createProject():
 def leaveProject():
     try:
         data = request.get_json()
-        response = Mongodb_Projects.leave_project(data["Username"], data["Password"], data["projectName"])
+        response = Mongodb_Projects.leave_project(data["Username"], data["projectName"])
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
@@ -65,7 +65,7 @@ def leaveProject():
 def joinProject():
     try:
         data = request.get_json()
-        response = Mongodb_Projects.join_project(data["Username"], data["Password"], data["projectName"])
+        response = Mongodb_Projects.join_project(data["Username"], data["projectName"])
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
