@@ -120,7 +120,7 @@ def projectList(username, password): #  TODO Do I need to encrpty again?
     try:
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
-        project_list = collection_users.find_one({"username": username, "password": password})["projects"]
+        project_list = collection_users.find_one({"username": username})["projects"]
         
         mylist = []
         for project in project_list:

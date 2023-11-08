@@ -7,10 +7,11 @@ class HardwareSet extends React.Component{
         super(props)
         this.checkIn = this.checkIn.bind(this)
         this.checkOut = this.checkOut.bind(this)
-        // this.join = this.join.bind(this)
         this.handleTextField = this.handleTextField.bind(this)
         this.state = {
-            checkedOut: this.props.HW1,
+            capacity: this.props.HWProps[0],
+            availability: this.props.HWProps[1],
+            checkedOut: this.props.HWProps[2],
             TextFieldValue: 0,
             butt: "Join",
             data: {}
@@ -29,7 +30,41 @@ class HardwareSet extends React.Component{
         }
     }
     checkIn(){
+
         let input = Number(this.state.TextFieldValue)
+
+        fetch("http://127.0.0.1:8000/checkIn",{
+            method: "POST",
+            mode: "cors",
+            headers:{
+                'content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                Username: this.state.user,
+            })
+        })
+        .then(response => response.json())
+            // .then(data => this.handler(data["Access"]))
+        .then((success) => {
+            var Access = success['Access']
+            var EncryptedUser = success['Username']
+            var EncryptedPass = success['Password']
+            console.log(Access)
+            this.setState({
+            success : Access,
+            user: EncryptedUser,
+            })
+        })
+        setTimeout(() => {
+            if(this.state.success === true){
+            window.alert("successfully signed in")
+            window.location.replace(`/Projects-Page?Username=${this.state.user}`)
+            }else{
+            alert("Incorrect username or password")
+            }
+        }, 500);
+
+
         let newCheckedOut = this.state.checkedOut - input
         if(newCheckedOut >= 0){
           this.setState({
@@ -50,8 +85,9 @@ class HardwareSet extends React.Component{
         return(
             <div>
                 <h3 className='HW'>{this.props.name}:</h3>
-                <h4 className='HW'>Capacity: {this.props.capacity}</h4>
-                <h4 className='HW'>checkedOut: {this.state.checkedOut}</h4>
+                <h4 className='HW'>Capacity: {this.state.capacity}</h4>
+                <h4 className='HW'>Available: {this.state.availability}</h4>
+                <h4 className='HW'>Checked Out: {this.state.checkedOut}</h4>
                 <br/>
                 <button  
                     variant='contained' 

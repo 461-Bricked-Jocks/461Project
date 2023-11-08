@@ -1,6 +1,6 @@
 import React from 'react'
 import "../styles/login.css";
-import { BrowserRouter as Routes, Route, useNavigate, Link } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 class CreateUser extends React.Component {
   constructor(props){
     super(props)
@@ -19,9 +19,8 @@ class CreateUser extends React.Component {
     this.setState({
       pass: newPass
     })
-    
-
   }
+  
   usernameHandler(){
     var newUser = document.getElementById("username").value
     this.setState({
