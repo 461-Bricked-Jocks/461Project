@@ -116,8 +116,6 @@ def leave_project(username, projectName):
 
 def projectList(username):
 
-    # TODO need to specify how much each project has it owned specifically
-
     try:
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
@@ -127,15 +125,17 @@ def projectList(username):
         for project in project_list:
             info_list = []
             info_list.append(project)
-            info_list.append(collection_projects.find_one({"name": project})["Description"])
+            info_list.append(collection_projects.find_one({"Name": project})["Description"])
 
             hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 1")
             info_list.append(hardwareData["capacity"])
             info_list.append(hardwareData["availability"])
+            info_list.append(collection_projects.find_one({"Name": project})["Allocated"][0])
 
             hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 2")
             info_list.append(hardwareData["capacity"])
             info_list.append(hardwareData["availability"])
+            info_list.append(collection_projects.find_one({"Name": project})["Allocated"][1])
             
             mylist.append(info_list)
             
@@ -145,16 +145,8 @@ def projectList(username):
         print(f'Error accessing the users collection: {e}')
 
 # if __name__ == '__main__':
-
-#     # collection_projects.insert_one({"Name": "Project5", "Description": "Minecraft", "ProjectID": "005", "Users": []})
-#     data = collection_projects.find_one({"Name": "Project5", "Description": "Minecraft", "ProjectID": "005", "Users": []})["_id"]
-#     print(data)
-#     query = {"_id": data}
-#     qty = 5
-#     update = {
-#         "$push": {
-#             "Users": qty
-#         }
-#     }
-#     result = collection_projects.update_one(query, update)
-#     print(result)
+#     # data = collection_projects.find_one({"Name": "Project5"})
+#     # print(data)
+#     info_list = []
+#     info_list.append(collection_projects.find_one({"Name": "Project5"})["Allocated"][0])
+#     print(info_list)
