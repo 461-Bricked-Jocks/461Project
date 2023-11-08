@@ -44,7 +44,7 @@ def projectPage():
         return jsonify({"error": str(e)}), 400
     
 @app.route('/createProject', methods=["POST"])
-def projectPage():
+def createProject():
     try:
         data = request.get_json()
         response = Mongodb_Projects.create_project(data["ProjectName"], data["Description"])
@@ -53,7 +53,7 @@ def projectPage():
         return jsonify({"error": str(e)}), 400
     
 @app.route('/leaveProject', methods=["POST"])
-def projectPage():
+def leaveProject():
     try:
         data = request.get_json()
         response = Mongodb_Projects.leave_project(data["Username"], data["Password"], data["projectName"])
@@ -62,7 +62,7 @@ def projectPage():
         return jsonify({"error": str(e)}), 400
 
 @app.route('/joinProject', methods=["POST"])
-def projectPage():
+def joinProject():
     try:
         data = request.get_json()
         response = Mongodb_Projects.join_project(data["Username"], data["Password"], data["projectName"])
@@ -71,7 +71,7 @@ def projectPage():
         return jsonify({"error": str(e)}), 400
     
 @app.route('/availabilityCapacity', methods=["POST"])
-def projectPage():
+def availabilityCapacity():
     try:
         data = request.get_json()
         response = Mongodb_Hardware.availability_capacity(data["HardwareSet"])
@@ -80,7 +80,7 @@ def projectPage():
         return jsonify({"error": str(e)}), 400
     
 @app.route('/checkIn', methods=["POST"])
-def projectPage():
+def checkIn():
     try:
         data = request.get_json()
         response = Mongodb_Hardware.checkIn({data["HardwareSet"], data["qty"]})
@@ -89,7 +89,7 @@ def projectPage():
         return jsonify({"error": str(e)}), 400
 
 @app.route('/checkOut', methods=["POST"])
-def projectPage():
+def checkOut():
     try:
         data = request.get_json()
         response = Mongodb_Hardware.checkOut({data["HardwareSet"], data["qty"]})

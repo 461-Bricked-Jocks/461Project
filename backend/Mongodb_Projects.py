@@ -84,6 +84,9 @@ def join_project(username, password, projectName):
         return response
     
 def leave_project(username, password, projectName):
+
+    # TODO Don't Leave unless there exists more than 1 user
+    
     if  username not in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
         response = {"Access": False }
         return response
