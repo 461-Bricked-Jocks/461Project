@@ -8,11 +8,14 @@ class ProjectPage extends React.Component{
         let params = new URLSearchParams(window.location.search)
         let username = params.get("Username")
         let password = params.get("Password")
+        let userToken = params.get("Token")
+        this.checkUserAuth(userToken)
         this.create = this.create.bind(this)
 
         this.state = {
             user : username,
             pass : password,
+            token : userToken,
             projectsArr : []
         }
         
@@ -30,6 +33,7 @@ class ProjectPage extends React.Component{
         .then(response => response.json())
         // .then(data => this.handler(data["Access"]))
         .then((success) => {
+        
           var Access = success['Access']
           var projects = [["jesus","testing","0","34"],["hello","testing","0","34"]]
         //   var projects = success['Projects']
@@ -50,8 +54,43 @@ class ProjectPage extends React.Component{
         return list
     }
     create(){
-        window.location.replace(`/Projects?Username=${this.state.user}&Password=${this.state.pass}`)
+        // console.log(this.state.userToken)
+        window.location.replace(`/Projects?Token=${this.state.token}`)
+        // window.location.replace(`/Projects?Username=${this.state.user}&Password=${this.state.pass}`)
     }
+
+    redirectToLogin() {
+        // Redirect to login page
+        window.location.href = '/';
+      }
+
+      checkUserAuth(token){
+        fetch("http://127.0.0.1:8000/isUserAuth", {
+          method: "GET",
+          headers: {
+            'x-access-token': token  // Send the token as a header
+          }
+        })
+        .then(response => response.json())
+        .then((data) => {
+          if(data.auth === true) {
+            console.log("User is authenticated");
+            // Perform actions based on authentication verification
+            console.log("Should redirect")
+            // window.location.replace(`/Projects-Page?Token=${token}`)
+    
+            // window.location.replace(`/Projects-Page?Token=${this.state.token}`)
+            return 
+          } else {
+            console.log("User is not authenticated");
+            this.redirectToLogin()
+            return 
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      }  
 
 
     render(){
@@ -61,6 +100,7 @@ class ProjectPage extends React.Component{
                     <header>
                         <h1>Projects</h1>
                         <button id='createProj' onClick={this.create}>Create/Join Project</button>
+                        <button id='logOffButton' onClick={this.redirectToLogin}>Log Off</button>
                         <hr></hr>
                     </header>
                     <ul>

@@ -5,7 +5,9 @@ class Projects extends React.Component {
 
     constructor(props){
         super(props)
-        // let params = new URLSearchParams(window.location.search);
+        let params = new URLSearchParams(window.location.search);
+        let userToken = params.get("Token")
+        this.checkUserAuth(userToken)
         // let username = params.get('Username');
         // let password = params.get('Password');
         this.createProject = this.createProject.bind(this)
@@ -20,9 +22,43 @@ class Projects extends React.Component {
           createProjectID: "",
           joinExistingProjectID: "",
           createProjectSuccess: false,
-          joinProjectSuccess: false
+          joinProjectSuccess: false,
+          token: userToken
         }
       }
+
+      redirectToLogin() {
+        // Redirect to login page
+        window.location.href = '/';
+      }
+
+      checkUserAuth(token){
+        fetch("http://127.0.0.1:8000/isUserAuth", {
+          method: "GET",
+          headers: {
+            'x-access-token': token  // Send the token as a header
+          }
+        })
+        .then(response => response.json())
+        .then((data) => {
+          if(data.auth === true) {
+            console.log("User is authenticated");
+            // Perform actions based on authentication verification
+            console.log("Should redirect")
+            // window.location.replace(`/Projects-Page?Token=${token}`)
+    
+            // window.location.replace(`/Projects-Page?Token=${this.state.token}`)
+            return true
+          } else {
+            console.log("User is not authenticated");
+            this.redirectToLogin()
+            return 
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      }  
 
       nameHandler(){
         var newName = document.getElementById("name").value
@@ -143,6 +179,11 @@ class Projects extends React.Component {
         console.log(password);
     }
 
+    redirectToLogin() {
+      // Redirect to login page
+      window.location.href = '/';
+    }
+
     render() {
             return (
         <div id = "back">
@@ -174,6 +215,8 @@ class Projects extends React.Component {
                 <button onClick={this.joinProject} id='joinProjectBtn'>join</button>
 
                 <button onClick={this.handleClick}>test</button>
+                <button id='logOffButton' onClick={this.redirectToLogin}>Log Off</button>
+
                 <br></br>
             </div>
 
