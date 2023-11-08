@@ -117,7 +117,6 @@ def leave_project(username, projectName):
 def projectList(username):
 
     # TODO need to specify how much each project has it owned specifically
-    # TODO No need for password in this file
 
     try:
         collections = client["Users"] #name of the database
