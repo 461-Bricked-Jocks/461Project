@@ -55,7 +55,7 @@ def create_project(name, description):
     response = {"Access": True}
     return response
 
-def join_project(username, password, projectName):
+def join_project(username, projectName):
     if  username in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
         response = {"Access": False }
         return response
@@ -71,7 +71,7 @@ def join_project(username, password, projectName):
         
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
-        data = collection_users.find_one({"username": username, "password": password})["_id"]
+        data = collection_users.find_one({"username": username})["_id"]
         query = {"_id": data}
         update = {
             "$push": {
@@ -83,10 +83,10 @@ def join_project(username, password, projectName):
         response = {"Access": False }
         return response
     
-def leave_project(username, password, projectName):
-
-    # TODO Don't Leave unless there exists more than 1 user
-    
+def leave_project(username, projectName):
+    if len(collection_projects.find_one({"Name": projectList})) == 1:
+        response = {"Access": False}
+        return response
     if  username not in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
         response = {"Access": False }
         return response
@@ -102,7 +102,7 @@ def leave_project(username, password, projectName):
         
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
-        data = collection_users.find_one({"username": username, "password": password})["_id"]
+        data = collection_users.find_one({"username": username})["_id"]
         query = {"_id": data}
         update = {
             "$pull": {
@@ -114,9 +114,8 @@ def leave_project(username, password, projectName):
         response = {"Access": False }
         return response
 
-def projectList(username, password): #  TODO Do I need to encrpty again?
-    # username = cipher.encrypt(username,3,1)
-    # password = cipher.encrypt(password,3,1)
+def projectList(username):
+
     try:
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
@@ -126,15 +125,17 @@ def projectList(username, password): #  TODO Do I need to encrpty again?
         for project in project_list:
             info_list = []
             info_list.append(project)
-            info_list.append(collection_projects.find_one({"name": project})["Description"])
+            info_list.append(collection_projects.find_one({"Name": project})["Description"])
 
             hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 1")
             info_list.append(hardwareData["capacity"])
             info_list.append(hardwareData["availability"])
+            info_list.append(collection_projects.find_one({"Name": project})["Allocated"][0])
 
             hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 2")
             info_list.append(hardwareData["capacity"])
             info_list.append(hardwareData["availability"])
+            info_list.append(collection_projects.find_one({"Name": project})["Allocated"][1])
             
             mylist.append(info_list)
             
@@ -144,16 +145,8 @@ def projectList(username, password): #  TODO Do I need to encrpty again?
         print(f'Error accessing the users collection: {e}')
 
 # if __name__ == '__main__':
-
-#     # collection_projects.insert_one({"Name": "Project5", "Description": "Minecraft", "ProjectID": "005", "Users": []})
-#     data = collection_projects.find_one({"Name": "Project5", "Description": "Minecraft", "ProjectID": "005", "Users": []})["_id"]
-#     print(data)
-#     query = {"_id": data}
-#     qty = 5
-#     update = {
-#         "$push": {
-#             "Users": qty
-#         }
-#     }
-#     result = collection_projects.update_one(query, update)
-#     print(result)
+#     # data = collection_projects.find_one({"Name": "Project5"})
+#     # print(data)
+#     info_list = []
+#     info_list.append(collection_projects.find_one({"Name": "Project5"})["Allocated"][0])
+#     print(info_list)
