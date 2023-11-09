@@ -48,7 +48,7 @@ def create_project(name, description, username ):
         return response
     
     allocated = [0,0]
-    collection_projects.insert_one({"Name": name, "Description": description, "Users": [], "Allocation": allocated})
+    collection_projects.insert_one({"Name": name, "Description": description, "Users": [], "Allocated": allocated})
     response = join_project(username, name)
     return response
 
@@ -155,6 +155,7 @@ def projectList(username):
             mylist.append(info_list)
             
         response = {"projectList": mylist}
+        
         return response
     except Exception as e:
         print(f'Error accessing the users collection: {e}')
