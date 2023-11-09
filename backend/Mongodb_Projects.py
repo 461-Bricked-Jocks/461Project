@@ -75,6 +75,8 @@ def join_project(username, projectName):
             }
         }
         collection_projects.update_one(query, update)
+        response = {"Access": True }
+        return response
     else:
         response = {"Access": False }
         return response
@@ -94,7 +96,7 @@ def leave_project(username, projectName):
                 "Users": username
             }
         }
-        collection_projects.update_one(query, update)
+        collection_users.update_one(query, update)
         
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
@@ -105,7 +107,9 @@ def leave_project(username, projectName):
                 "projects": projectName
             }
         }
-        collection_projects.update_one(query, update)
+        collection_users.update_one(query, update)
+        response = {"Access": True }
+        return response
     else:
         response = {"Access": False }
         return response
@@ -113,8 +117,8 @@ def leave_project(username, projectName):
 def projectList(username):
 
     try:
-        collections = client["Users"] #name of the database
-        collection_users = collections["user_password"] #name of collection
+        collections = client["Users"] # name of the database
+        collection_users = collections["user_password"] # name of collection
         project_list = collection_users.find_one({"username": username})["projects"]
         
         mylist = []
@@ -123,15 +127,23 @@ def projectList(username):
             info_list.append(project)
             info_list.append(collection_projects.find_one({"Name": project})["Description"])
 
+            
+            hw1 = []
             hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 1")
-            info_list.append(hardwareData["capacity"])
-            info_list.append(hardwareData["availability"])
-            info_list.append(collection_projects.find_one({"Name": project})["Allocated"][0])
+            hw1.append(hardwareData["capacity"])
+            hw1.append(hardwareData["availability"])
+            hw1.append(collection_projects.find_one({"Name": project})["Allocated"][0])
 
+            hw2 = []
             hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 2")
-            info_list.append(hardwareData["capacity"])
-            info_list.append(hardwareData["availability"])
-            info_list.append(collection_projects.find_one({"Name": project})["Allocated"][1])
+            hw2.append(hardwareData["capacity"])
+            hw2.append(hardwareData["availability"])
+            hw2.append(collection_projects.find_one({"Name": project})["Allocated"][1])
+
+            hwSets = []
+            hwSets.append(hw1)
+            hwSets.append(hw2)
+            info_list.append(hwSets)
             
             mylist.append(info_list)
             
