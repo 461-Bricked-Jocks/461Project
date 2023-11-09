@@ -46,10 +46,7 @@ def create_project(name, description, username ):
         return response
     
     allocated = [0,0]
-    
-    collection_projects.insert_one({"Name": name, "Description": description, "Users": [], "Allocation": allocated})
-    
-    print("problem")
+    collection_projects.insert_one({"Name": name, "Description": description, "Users": [], "Allocated": allocated})
     response = join_project(username, name)
     print(response)
     return response
