@@ -119,13 +119,13 @@ def checkOut(project, name, qty): #todo
         availability = int(hardwareSet["availability"])
         capacity = int(hardwareSet["capacity"])
 
-        ##
+        
         projectName = collection_projects.find_one({"Name": project})
         if projectName:
             print("checkpoint 2")
             x = hardwareSet["ID"]
             print(x)
-            amount = collection_projects.find_one({"Name": project})["Allocated"][x]
+            amount = collection_projects.find_one({"Name": project})["Allocation"][x]
             print(amount)
             print(qty)
             print(type(int(qty)))
@@ -210,7 +210,6 @@ def main():
     
    
     availability_capacity(projectHardware_name)
-
-if __name__ == "__main__":
-    main()
 '''
+# if __name__ == "__main__":
+#     checkOut("Project1","Hardware Set 1",100)
