@@ -27,9 +27,10 @@ class ProjectPage extends React.Component{
         .then(response => response.json())
         // .then(data => this.handler(data["Access"]))
         .then((success) => {
-            var Access = success['Access']
-            var projects = [["1","testing",[2000,1000,20],[2000,1500,32]],["2","testing",[2000,1000,250],[2000,1500,200]]]
-            //var projects = success['projectList']
+            //var Access = success['Access']
+            var Access = true
+            //var projects = [["1","testing",[[2000,1000,20],[2000,1500,32]]],["2","testing",[2000,1000,250],[2000,1500,200]]]
+            var projects = success['projectList']
         
             projects = this.makeList(projects)
             console.log(Access)
@@ -42,7 +43,7 @@ class ProjectPage extends React.Component{
     } 
     makeList(arr){
         let list = arr.map((project) => (
-            <Project name={project[0]} description={project[1]} HW1={project[2]} HW2={project[3]}></Project>
+            <Project name={project[0]} description={project[1]} HW1={project[2][0]} HW2={project[2][1]}></Project>
         ));
         return list
     }

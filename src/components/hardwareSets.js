@@ -17,17 +17,45 @@ class HardwareSet extends React.Component{
             data: {}
         }
     }
+
     checkOut(){
         let input = Number(this.state.TextFieldValue)
-        console.log(input)
-        let newCheckedOut = this.state.checkedOut + input
-        console.log(newCheckedOut)
-        
-        if(newCheckedOut <= this.props.capacity){
-            this.setState({
-            checkedOut: newCheckedOut
+        fetch("http://127.0.0.1:8000/checkOut",{
+            method: "POST",
+            mode: "cors",
+            headers:{
+                'content-Type':'application/json'
+            },
+            body: JSON.stringify({
+                projectName: this.props.projectName,
+                HardwareSet : this.props.name,
+                qty : input
             })
-        }
+        })
+        .then(response => response.json())
+        // .then(data => this.handler(data["Access"]))
+        .then((success) => {
+            var Access = success['Access']
+            console.log(Access)
+            this.setState({
+                success : Access,
+            })
+        })
+        setTimeout(() => {
+            if(this.state.success === false){
+                window.alert(`You cannot checkout more than available`)
+            }
+            window.location.replace(`/Projects-Page?Username=${this.state.user}`)
+        }, 500);
+        // console.log(input)
+        // let newCheckedOut = this.state.checkedOut + input
+        // console.log(newCheckedOut)
+        
+        // if(newCheckedOut <= this.props.capacity){
+        //     this.setState({
+        //     checkedOut: newCheckedOut
+        //     })
+        // }
     }
     checkIn(){
 
@@ -40,37 +68,34 @@ class HardwareSet extends React.Component{
                 'content-Type':'application/json'
             },
             body: JSON.stringify({
-                Username: this.state.user,
+                projectName: this.props.projectName,
+                HardwareSet : this.props.name,
+                qty : input
             })
         })
         .then(response => response.json())
-            // .then(data => this.handler(data["Access"]))
+        // .then(data => this.handler(data["Access"]))
         .then((success) => {
             var Access = success['Access']
-            var EncryptedUser = success['Username']
-            var EncryptedPass = success['Password']
             console.log(Access)
             this.setState({
-            success : Access,
-            user: EncryptedUser,
+                success : Access,
             })
         })
         setTimeout(() => {
-            if(this.state.success === true){
-            window.alert("successfully signed in")
-            window.location.replace(`/Projects-Page?Username=${this.state.user}`)
-            }else{
-            alert("Incorrect username or password")
+            if(this.state.success === false){
+                window.alert(`You cannot checkIn more than you have`)
             }
+            window.location.replace(`/Projects-Page?Username=${this.state.user}`)
         }, 500);
 
 
-        let newCheckedOut = this.state.checkedOut - input
-        if(newCheckedOut >= 0){
-          this.setState({
-            checkedOut: newCheckedOut
-          })
-        }
+        // let newCheckedOut = this.state.checkedOut - input
+        // if(newCheckedOut >= 0){
+        //   this.setState({
+        //     checkedOut: newCheckedOut
+        //   })
+        // }
     }
     handleTextField(event){
         var newVal = event.target.value
