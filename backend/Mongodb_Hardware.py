@@ -53,7 +53,7 @@ else:
 def checkIn(project, name, qty): #todo
     hardwareSet = collection_hardware.find_one({"name": name})
     if hardwareSet:
-        avilability = hardwareSet["availability"]
+        availability = hardwareSet["availability"]
         capacity = hardwareSet["capacity"]
         #updating project sets
         projectName = collection_projects.find_one({"Name": project})
@@ -65,11 +65,11 @@ def checkIn(project, name, qty): #todo
 
             if int(qty) >= 0 and int(qty) <= int(amount): 
                 #if(qty > )
-                avilability = int(avilability) + int(qty) # IDK if this the right way to get this value
+                availability = int(availability) + int(qty) # IDK if this the right way to get this value
                 projectHamount = int(amount) - int(qty)
 
-                if (avilability <= int(capacity)):
-                    collection_hardware.update_one({"name": name}, {"$set": {"availability": str(avilability)}}) 
+                if (availability <= int(capacity)):
+                    collection_hardware.update_one({"name": name}, {"$set": {"availability": str(availability)}})
 
                     #collection_projects.update_one({"Name": project}, {"$set": {"Allocated"[x]: }})
                     #updating project
@@ -81,13 +81,13 @@ def checkIn(project, name, qty): #todo
                     }
                     collection_projects.update_one(query, update)
 
-                    #response = {"Access": True, "availability": avilability, "capacity": capacity}
+                    #response = {"Access": True, "availability": availability, "capacity": capacity}
                     response = {"Access": True}
                 else:
                     collection_hardware.update_one({"name": name}, {"$set": {"availability": str(capacity)}}) 
                     #response = {"Error Hardware set": "more than original capacity"}
                     response = {"Access": True}
-                    #response = {"Access": True, "availability": avilability, "capacity": capacity}
+                    #response = {"Access": True, "availability": availability, "capacity": capacity}
                 return response
 
 
@@ -101,7 +101,7 @@ def checkIn(project, name, qty): #todo
     else:
         response = {"Access": False}
         #response = {"Access":False, "Error": "Hardware set name error"}
-        #response = {"Access": False, "availability": avilability, "capacity": capacity}
+        #response = {"Access": False, "availability": availability, "capacity": capacity}
     
         return response
 
@@ -116,7 +116,7 @@ def checkOut(project, name, qty): #todo
     
     if hardwareSet:
         print("checkpoint 1")
-        avilability = hardwareSet["availability"]
+        availability = hardwareSet["availability"]
         capacity = hardwareSet["capacity"]
 
         ##
@@ -134,7 +134,7 @@ def checkOut(project, name, qty): #todo
 
             #if int(qty) >= 0 and int(qty) <= int(amount):
             if int(qty) >= 0:
-                if(qty > avilability):
+                if(qty > availability):
                     print("checkpoint 3A")
                     
                     
@@ -142,9 +142,9 @@ def checkOut(project, name, qty): #todo
                     response = {"Access": False}
                 else:
                     print("checkpoint 3B")
-                    avilability =  int(avilability) - int(qty)
-                    print(avilability)
-                    collection_hardware.update_one({"name": name}, {"$set": {"availability": str(avilability)}}) 
+                    availability =  int(availability) - int(qty)
+                    print(availability)
+                    collection_hardware.update_one({"name": name}, {"$set": {"availability": str(availability)}})
 
                     ##updating project hardware amount
                     projectHamount = int(amount) + int(qty)
@@ -158,7 +158,7 @@ def checkOut(project, name, qty): #todo
 
 
                     
-                    #response = {"Access": True, "availability": avilability, "capacity": capacity}
+                    #response = {"Access": True, "availability": availability, "capacity": capacity}
                     response = {"Access": True}
                 return response
 
@@ -176,11 +176,11 @@ def checkOut(project, name, qty): #todo
 def availability_capacity(name): #todo
     hardwareSet = collection_hardware.find_one({"name": name})
     if hardwareSet:
-        avilability = hardwareSet["availability"]
+        availability = hardwareSet["availability"]
         capacity = hardwareSet["capacity"]
    
         #print("capacity: ", capacity)
-        response = {"Access": True, "availability": avilability, "capacity": capacity}
+        response = {"Access": True, "availability": availability, "capacity": capacity}
         #response = {"Access": True}
     else:
         response = {"Access": False, "Error": "Hardware set name error" }
