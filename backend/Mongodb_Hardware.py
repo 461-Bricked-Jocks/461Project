@@ -60,7 +60,7 @@ def checkIn(project, name, qty): #todo
         if projectName:
             x = hardwareSet["ID"]
             #amount = collection_projects["Allocated"][x]
-            amount = int(collection_projects.find_one({"Name": project})["Allocated"][x])
+            amount = int(collection_projects.find_one({"Name": project})["Allocation"][x])
         
 
             if qty >= 0 and qty <= amount: 
@@ -76,7 +76,7 @@ def checkIn(project, name, qty): #todo
                     query = {"Name": project}
                     update = {
                         "$set": {
-                            f'Allocated.{x}': projectHamount
+                            f'Allocation.{x}': projectHamount
                         }
                     }
                     collection_projects.update_one(query, update)
@@ -153,7 +153,7 @@ def checkOut(project, name, qty): #todo
                     query = {"Name": project}
                     update = {
                         "$set": {
-                            f'Allocated.{x}': projectHamount
+                            f'Allocation.{x}': projectHamount
                         }
                     }
                     collection_projects.update_one(query, update)
