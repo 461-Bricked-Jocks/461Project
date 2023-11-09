@@ -53,20 +53,20 @@ else:
 def checkIn(project, name, qty): #todo
     hardwareSet = collection_hardware.find_one({"name": name})
     if hardwareSet:
-        availability = hardwareSet["availability"]
-        capacity = hardwareSet["capacity"]
+        availability = int(hardwareSet["availability"])
+        capacity = int(hardwareSet["capacity"])
         #updating project sets
         projectName = collection_projects.find_one({"Name": project})
         if projectName:
             x = hardwareSet["ID"]
             #amount = collection_projects["Allocated"][x]
-            amount = collection_projects.find_one({"Name": project})["Allocated"][x]
+            amount = int(collection_projects.find_one({"Name": project})["Allocated"][x])
         
 
-            if int(qty) >= 0 and int(qty) <= int(amount): 
+            if qty >= 0 and qty <= amount: 
                 #if(qty > )
-                availability = int(availability) + int(qty) # IDK if this the right way to get this value
-                projectHamount = int(amount) - int(qty)
+                availability = availability + int(qty) # IDK if this the right way to get this value
+                projectHamount = amount - int(qty)
 
                 if (availability <= int(capacity)):
                     collection_hardware.update_one({"name": name}, {"$set": {"availability": str(availability)}})
@@ -116,8 +116,8 @@ def checkOut(project, name, qty): #todo
     
     if hardwareSet:
         print("checkpoint 1")
-        availability = hardwareSet["availability"]
-        capacity = hardwareSet["capacity"]
+        availability = int(hardwareSet["availability"])
+        capacity = int(hardwareSet["capacity"])
 
         ##
         projectName = collection_projects.find_one({"Name": project})
@@ -128,12 +128,14 @@ def checkOut(project, name, qty): #todo
             amount = collection_projects.find_one({"Name": project})["Allocated"][x]
             print(amount)
             print(qty)
-            print(int(qty))
+            print(type(int(qty)))
+            print
         #x = collection_projects.find_one({"name": project})["ID"]
         #amount = collection_projects["Allocated"][x]
 
             #if int(qty) >= 0 and int(qty) <= int(amount):
-            if int(qty) >= 0:
+            if qty >= 0:
+                print(availability)
                 if(qty > availability):
                     print("checkpoint 3A")
                     
