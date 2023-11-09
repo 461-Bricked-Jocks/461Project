@@ -53,7 +53,7 @@ def create_project(name, description, username ):
 
 def join_project(username, projectName):
     if  username in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
-        response = {"Access": False }
+        response = {"Access": False, "Message": "User Already In Project"}
         return response
     if (does_project_nameexist(projectName)):
         print("this runs")
@@ -80,7 +80,7 @@ def join_project(username, projectName):
         response = {"Access": True }
         return response
     else:
-        response = {"Access": False }
+        response = {"Access": False, "Message": "Project Does Not Exists" }
         return response
     
 def leave_project(username, projectName):
@@ -128,26 +128,41 @@ def projectList(username):
             info_list = []
             info_list.append(project)
             info_list.append(collection_projects.find_one({"Name": project})["Description"])
-
             
-            hw1 = []
-            hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 1")
-            hw1.append(hardwareData["capacity"])
-            hw1.append(hardwareData["availability"])
-            hw1.append(collection_projects.find_one({"Name": project})["Allocated"][0])
 
-            hw2 = []
-            hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 2")
-            hw2.append(hardwareData["capacity"])
-            hw2.append(hardwareData["availability"])
-            hw2.append(collection_projects.find_one({"Name": project})["Allocated"][1])
+            collections_HW = collections["hardware_set"]
 
-            hwSets = []
-            hwSets.append(hw1)
-            hwSets.append(hw2)
-            info_list.append(hwSets)
-            
+            Sets = []
+            tracker = 0
+            for item in collections_HW:
+                hw = []
+                hardwareData = Mongodb_Hardware.availability_capacity(item["name"])
+                hw.append(hardwareData["capacity"])
+                hw.append(hardwareData["availability"])
+                hw.append(collection_projects.find_one({"Name": project})["Allocated"][tracker])
+                Sets.append(hw)
+                tracker += 1
+            info_list.append(Sets)
             mylist.append(info_list)
+
+            # hw1 = []
+            # hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 1")
+            # hw1.append(hardwareData["capacity"])
+            # hw1.append(hardwareData["availability"])
+            # hw1.append(collection_projects.find_one({"Name": project})["Allocated"][0])
+
+            # hw2 = []
+            # hardwareData = Mongodb_Hardware.availability_capacity("Hardware Set 2")
+            # hw2.append(hardwareData["capacity"])
+            # hw2.append(hardwareData["availability"])
+            # hw2.append(collection_projects.find_one({"Name": project})["Allocated"][1])
+
+            # hwSets = []
+            # hwSets.append(hw1)
+            # hwSets.append(hw2)
+
+            # info_list.append(hwSets)
+            # mylist.append(info_list)
             
         response = {"projectList": mylist}
         return response
@@ -155,8 +170,13 @@ def projectList(username):
         print(f'Error accessing the users collection: {e}')
 
 # if __name__ == '__main__':
-#     # data = collection_projects.find_one({"Name": "Project5"})
-#     # print(data)
-#     info_list = []
-#     info_list.append(collection_projects.find_one({"Name": "Project5"})["Allocated"][0])
-#     print(info_list)
+#     x = 0
+#     data = collection_projects.find_one({"Name": "Project5"})["_id"]
+#     query = {"_id": data}
+#     print(query)
+#     update = {
+#         "$set": {
+#             f'Allocated.{x}': 3
+#         }
+#     }
+#     collection_projects.update_one(query, update)
