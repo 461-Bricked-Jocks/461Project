@@ -47,7 +47,7 @@ def projectPage():
 def createProject():
     try:
         data = request.get_json()
-        response = Mongodb_Projects.create_project(data["ProjectName"], data["Description"])
+        response = Mongodb_Projects.create_project(data["ProjectName"], data["Description"], data["User"])
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
@@ -83,7 +83,7 @@ def availabilityCapacity():
 def checkIn():
     try:
         data = request.get_json()
-        response = Mongodb_Hardware.checkIn({data["HardwareSet"], data["qty"]})
+        response = Mongodb_Hardware.checkIn({data["projectName"],data["HardwareSet"], data["qty"]})
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
@@ -92,7 +92,7 @@ def checkIn():
 def checkOut():
     try:
         data = request.get_json()
-        response = Mongodb_Hardware.checkOut({data["HardwareSet"], data["qty"]})
+        response = Mongodb_Hardware.checkOut({data["projectName"], data["HardwareSet"], data["qty"]})
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400
