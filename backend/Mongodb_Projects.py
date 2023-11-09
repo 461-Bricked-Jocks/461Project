@@ -56,8 +56,10 @@ def join_project(username, projectName):
         response = {"Access": False }
         return response
     if (does_project_nameexist(projectName)):
+        print("this runs")
         data = collection_projects.find_one({"Name": projectName})["_id"]
         query = {"_id": data}
+        print(query)
         update = {
             "$push": {
                 "Users": username
@@ -74,7 +76,7 @@ def join_project(username, projectName):
                 "projects": projectName
             }
         }
-        collection_projects.update_one(query, update)
+        collection_users.update_one(query, update)
         response = {"Access": True }
         return response
     else:
