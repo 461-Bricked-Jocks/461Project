@@ -84,7 +84,7 @@ def join_project(username, projectName):
         return response
     
 def leave_project(username, projectName):
-    if len(collection_projects.find_one({"Name": projectList})) == 1:
+    if len(collection_projects.find_one({"Name": projectList})["Users"]) == 1:
         response = {"Access": False}
         return response
     if  username not in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
