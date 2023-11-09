@@ -4,9 +4,9 @@ import HardwareSet from './hardwareSets';
 
 class Project extends React.Component{
     
-    constructor(props){
-        super(props)
-    }
+    // constructor(props){
+    //     super(props)
+    // }
 
     render(){
         return(
@@ -17,13 +17,11 @@ class Project extends React.Component{
                 <div id='HWSets'>
                     <div className='HWSet'>
                     <HardwareSet name='Hardware Set 1' 
-                                capacity ='2000' 
-                                HW={this.props.HW1}/>
+                                HWProps={this.props.HW1}/>
                     </div>
                     <div className='HWSet'>
                     <HardwareSet name='Hardware Set 2' 
-                                capacity ='2000' 
-                                HW={this.props.HW2}/>
+                                HWProps={this.props.HW2}/>
                     </div>
                 </div>
             </div>

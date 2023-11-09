@@ -1,8 +1,6 @@
 import React from 'react'
 import "../styles/login.css";
-import { BrowserRouter as Routes, Route, useNavigate, Link, Navigate } from "react-router-dom";
-import Projects from './projects';
-// import { render } from '@testing-library/react';
+import { BrowserRouter as Routes, Route, useNavigate, Link, Navigate} from "react-router-dom";
 
 
 
@@ -55,14 +53,13 @@ class Login extends React.Component {
         console.log(Access)
         this.setState({
           success : Access,
-          // user : EncryptedUser,
-          // pass : EncryptedPass
+          user: EncryptedUser,
         })
       })
       setTimeout(() => {
         if(this.state.success === true){
           window.alert("successfully signed in")
-          window.location.replace(`/Projects-Page?Username=${this.state.user}&Password=${this.state.pass}`)
+          window.location.replace(`/Projects-Page?Username=${this.state.user}`)
         }else{
           alert("Incorrect username or password")
         }
