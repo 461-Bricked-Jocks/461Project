@@ -153,34 +153,34 @@ def projectList(username):
         print(f'Error accessing the users collection: {e}')
 
 if __name__ == '__main__':
-    collections = client["Users"] # name of the database
-    collection_users = collections["user_password"] # name of collection
-    project_list = collection_users.find_one({"username": "654fed"})["projects"]
-    
-    mylist = []
-    for project in project_list:
-        info_list = []
-        info_list.append(project)
-        info_list.append(collection_projects.find_one({"Name": project})["Description"])
+    # if len(collection_projects.find_one({"Name": projectList})["Users"]) == 1:
+    #     response = {"Access": False}
+    #     # return response
+    # if  username not in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
+    #     response = {"Access": False }
+    #     return response
+    if (does_project_nameexist("Testing")):
+        data = collection_projects.find_one({"Name": projectName})["_id"]
+        query = {"_id": data}
+        update = {
+            "$pull": {
+                "Users": username
+            }
+        }
+        collection_users.update_one(query, update)
         
-
-        collections_HW = client["Hardware"]
-        x = collections_HW["hardware_set"]
-        collections_HWS = x.find({})
-
-        Sets = []
-        tracker = 0
-        for item in collections_HWS:
-            print(item)
-            print(item["name"])
-            hw = []
-            hardwareData = Mongodb_Hardware.availability_capacity(item["name"])
-            print(hardwareData)
-            hw.append(hardwareData["capacity"])
-            hw.append(hardwareData["availability"])
-            hw.append(collection_projects.find_one({"Name": project})["Allocated"][tracker])
-            Sets.append(hw)
-            tracker += 1
-        info_list.append(Sets)
-        mylist.append(info_list)
-        print(mylist)
+        collections = client["Users"] #name of the database
+        collection_users = collections["user_password"] #name of collection
+        data = collection_users.find_one({"username": username})["_id"]
+        query = {"_id": data}
+        update = {
+            "$pull": {
+                "projects": projectName
+            }
+        }
+        collection_users.update_one(query, update)
+        response = {"Access": True }
+        return response
+    else:
+        response = {"Access": False }
+        return response
