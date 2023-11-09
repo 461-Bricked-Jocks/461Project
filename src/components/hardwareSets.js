@@ -5,10 +5,12 @@ import "../styles/login.css";
 class HardwareSet extends React.Component{
     constructor(props){
         super(props)
+        let params = new URLSearchParams(window.location.search)
         this.checkIn = this.checkIn.bind(this)
         this.checkOut = this.checkOut.bind(this)
         this.handleTextField = this.handleTextField.bind(this)
         this.state = {
+            user: params.get("Username"),
             capacity: this.props.HWProps[0],
             availability: this.props.HWProps[1],
             checkedOut: this.props.HWProps[2],
@@ -20,6 +22,7 @@ class HardwareSet extends React.Component{
 
     checkOut(){
         let input = Number(this.state.TextFieldValue)
+        console.log(input)
         fetch("http://127.0.0.1:8000/checkOut",{
             method: "POST",
             mode: "cors",
@@ -86,7 +89,8 @@ class HardwareSet extends React.Component{
             if(this.state.success === false){
                 window.alert(`You cannot checkIn more than you have`)
             }
-            window.location.replace(`/Projects-Page?Username=${this.state.user}`)
+            // window.location.replace(`/Projects-Page?Username=${this.state.user}`)
+            window.location.reload()
         }, 500);
 
 

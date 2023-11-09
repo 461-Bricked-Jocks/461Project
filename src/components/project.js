@@ -4,10 +4,18 @@ import HardwareSet from './hardwareSets';
 
 class Project extends React.Component{
     
-    // constructor(props){
-    //     super(props)
-    // }
+    constructor(props){
+        super(props)
+        this.leave = this.leave.bind(this)
+        this.state = {
+            projName : this.props.name,
+            user: this.props.user,
+            success: false
+        }
+    }
     leave(){
+        console.log(this.state.user)
+        console.log(this.state.projName)
         fetch("http://127.0.0.1:8000/leaveProject",{
             method: "POST",
             mode: "cors",
@@ -15,14 +23,16 @@ class Project extends React.Component{
                 'content-Type':'application/json'
             },
             body: JSON.stringify({
-                Username: this.props.user,
-                projectName: this.props.name
+                Username: this.state.user,
+                projectName: this.state.projName
             })
         })
         .then(response => response.json())
         // .then(data => this.handler(data["Access"]))
         .then((success) => {
             var Access = success['Access']
+            //var Access = true
+            console.log("test")
             console.log(Access)
             this.setState({
                 success : Access,
@@ -31,6 +41,7 @@ class Project extends React.Component{
         setTimeout(() => {
             if(this.state.success === true){
             window.alert(`successfully left Project: ${this.props.name}`)
+            window.location.replace(`/Projects-Page?Username=${this.state.user}`)
             }else{
             alert("error leaving Project")
             }

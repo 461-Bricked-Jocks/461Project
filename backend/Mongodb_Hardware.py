@@ -109,31 +109,41 @@ def checkIn(project, name, qty): #todo
 
     
 def checkOut(project, name, qty): #todo
+    print("initial")
+        
+    print(collection_hardware.find_one({"name": name}))
     hardwareSet = collection_hardware.find_one({"name": name})
+    
     if hardwareSet:
+        print("checkpoint 1")
         avilability = hardwareSet["availability"]
         capacity = hardwareSet["capacity"]
 
         ##
         projectName = collection_projects.find_one({"Name": project})
         if projectName:
+            print("checkpoint 2")
             x = hardwareSet["ID"]
+            print(x)
             amount = collection_projects.find_one({"Name": project})["Allocated"][x]
             print(amount)
+            print(qty)
+            print(int(qty))
         #x = collection_projects.find_one({"name": project})["ID"]
         #amount = collection_projects["Allocated"][x]
 
             #if int(qty) >= 0 and int(qty) <= int(amount):
             if int(qty) >= 0:
                 if(qty > avilability):
-                    
+                    print("checkpoint 3A")
                     
                     
                     #response = {"Access": False, "Error": "Quantity error"}
                     response = {"Access": False}
                 else:
-        
+                    print("checkpoint 3B")
                     avilability =  int(avilability) - int(qty)
+                    print(avilability)
                     collection_hardware.update_one({"name": name}, {"$set": {"availability": str(avilability)}}) 
 
                     ##updating project hardware amount
@@ -153,6 +163,7 @@ def checkOut(project, name, qty): #todo
                 return response
 
             else:
+                print("this is no bueno")
                 #response = {"Access": False, "Error": "qty error"}
                 response = {"Access": False}
 

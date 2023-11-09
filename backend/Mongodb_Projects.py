@@ -84,13 +84,18 @@ def join_project(username, projectName):
         return response
     
 def leave_project(username, projectName):
-    if len(collection_projects.find_one({"Name": projectList})) == 1:
+    print("hello")
+    print(len(collection_projects.find_one({"Name": projectName})["Users"]))
+    if len(collection_projects.find_one({"Name": projectName})["Users"]) == 1:
+        print("first if")
         response = {"Access": False}
         return response
     if  username not in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
+        print("second if")
         response = {"Access": False }
         return response
     if (does_project_nameexist(projectName)):
+        print("third if")
         data = collection_projects.find_one({"Name": projectName})["_id"]
         query = {"_id": data}
         update = {
@@ -98,7 +103,7 @@ def leave_project(username, projectName):
                 "Users": username
             }
         }
-        collection_users.update_one(query, update)
+        collection_projects.update_one(query, update)
         
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
@@ -113,6 +118,7 @@ def leave_project(username, projectName):
         response = {"Access": True }
         return response
     else:
+        print("else")
         response = {"Access": False }
         return response
 
