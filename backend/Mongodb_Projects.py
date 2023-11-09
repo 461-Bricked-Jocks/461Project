@@ -130,8 +130,9 @@ def projectList(username):
             info_list.append(collection_projects.find_one({"Name": project})["Description"])
             
 
-            collections_HW = collections["hardware_set"]
-            collections_HWS = collections_HW.find()
+            collections_HW = client["Hardware"]
+            x = collections_HW["hardware_set"]
+            collections_HWS = x.find({})
 
             Sets = []
             tracker = 0
@@ -151,32 +152,35 @@ def projectList(username):
     except Exception as e:
         print(f'Error accessing the users collection: {e}')
 
-# if __name__ == '__main__':
-#     collections = client["Users"] # name of the database
-#     collection_users = collections["user_password"] # name of collection
-#     project_list = collection_users.find_one({"username": "654fed"})["projects"]
+if __name__ == '__main__':
+    collections = client["Users"] # name of the database
+    collection_users = collections["user_password"] # name of collection
+    project_list = collection_users.find_one({"username": "654fed"})["projects"]
     
-#     mylist = []
-#     for project in project_list:
-#         info_list = []
-#         info_list.append(project)
-#         info_list.append(collection_projects.find_one({"Name": project})["Description"])
+    mylist = []
+    for project in project_list:
+        info_list = []
+        info_list.append(project)
+        info_list.append(collection_projects.find_one({"Name": project})["Description"])
         
 
-#         collections_HW = collections["hardware_set"]
-#         collections_HWS = collections_HW.find()
-#         print(collections_HWS)
+        collections_HW = client["Hardware"]
+        x = collections_HW["hardware_set"]
+        collections_HWS = x.find({})
 
-#         Sets = []
-#         tracker = 0
-#         for item in collections_HWS:
-#             hw = []
-#             hardwareData = Mongodb_Hardware.availability_capacity(item["name"])
-#             hw.append(hardwareData["capacity"])
-#             hw.append(hardwareData["availability"])
-#             hw.append(collection_projects.find_one({"Name": project})["Allocated"][tracker])
-#             Sets.append(hw)
-#             tracker += 1
-#         info_list.append(Sets)
-#         mylist.append(info_list)
-#         print(mylist)
+        Sets = []
+        tracker = 0
+        for item in collections_HWS:
+            print(item)
+            print(item["name"])
+            hw = []
+            hardwareData = Mongodb_Hardware.availability_capacity(item["name"])
+            print(hardwareData)
+            hw.append(hardwareData["capacity"])
+            hw.append(hardwareData["availability"])
+            hw.append(collection_projects.find_one({"Name": project})["Allocated"][tracker])
+            Sets.append(hw)
+            tracker += 1
+        info_list.append(Sets)
+        mylist.append(info_list)
+        print(mylist)
