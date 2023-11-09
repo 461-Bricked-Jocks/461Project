@@ -46,8 +46,9 @@ def create_project(name, description, username ):
     if does_project_nameexist(name):
         response = {"Access": False}
         return response
-
-    collection_projects.insert_one({"Name": name, "Description": description, "Users": []})
+    
+    allocated = [0,0]
+    collection_projects.insert_one({"Name": name, "Description": description, "Users": [], "Allocation": allocated})
     response = join_project(username, name)
     return response
 
@@ -158,35 +159,4 @@ def projectList(username):
     except Exception as e:
         print(f'Error accessing the users collection: {e}')
 
-if __name__ == '__main__':
-    # if len(collection_projects.find_one({"Name": projectList})["Users"]) == 1:
-    #     response = {"Access": False}
-    #     # return response
-    # if  username not in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
-    #     response = {"Access": False }
-    #     return response
-    if (does_project_nameexist("Testing")):
-        data = collection_projects.find_one({"Name": projectName})["_id"]
-        query = {"_id": data}
-        update = {
-            "$pull": {
-                "Users": username
-            }
-        }
-        collection_users.update_one(query, update)
-        
-        collections = client["Users"] #name of the database
-        collection_users = collections["user_password"] #name of collection
-        data = collection_users.find_one({"username": username})["_id"]
-        query = {"_id": data}
-        update = {
-            "$pull": {
-                "projects": projectName
-            }
-        }
-        collection_users.update_one(query, update)
-        response = {"Access": True }
-        return response
-    else:
-        response = {"Access": False }
-        return response
+# if __name__ == '__main__':
