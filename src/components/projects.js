@@ -68,6 +68,7 @@ class Projects extends React.Component {
           body: JSON.stringify({
             ProjectName: this.state.name,
             Description: this.state.description,
+            User: this.state.user
           })
     
         })
