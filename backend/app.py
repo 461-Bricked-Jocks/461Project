@@ -56,9 +56,14 @@ def createProject():
 def leaveProject():
     try:
         data = request.get_json()
+        print(data)
+        print(data["Username"])
         response = Mongodb_Projects.leave_project(data["Username"], data["projectName"])
+        print("made it to this ")
+        print(response)
         return jsonify(response)
     except Exception as e:
+        print("exception")
         return jsonify({"error": str(e)}), 400
 
 @app.route('/joinProject', methods=["POST"])
@@ -92,7 +97,9 @@ def checkIn():
 def checkOut():
     try:
         data = request.get_json()
-        response = Mongodb_Hardware.checkOut({data["projectName"], data["HardwareSet"], data["qty"]})
+        print(data)
+        response = Mongodb_Hardware.checkOut(data["projectName"], data["HardwareSet"], data["qty"])
+        print(response)
         return jsonify(response)
     except Exception as e:
         return jsonify({"error": str(e)}), 400

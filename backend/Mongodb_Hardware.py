@@ -24,6 +24,8 @@ except Exception as e:
 data_base = client["Hardware"] #name of the database
 collection_hardware = data_base["hardware_set"] #name of collection
 
+data_base = client["Projects"]
+collection_projects = data_base["projects"]
 #insert document in collection
 #change name to desciprion
 '''
@@ -48,96 +50,165 @@ else:
     print("name not found\n")
 '''
 
-def checkIn(name, qty): #todo
+def checkIn(project, name, qty): #todo
     hardwareSet = collection_hardware.find_one({"name": name})
     if hardwareSet:
-        avilability = hardwareSet["availability"]
+        availability = hardwareSet["availability"]
         capacity = hardwareSet["capacity"]
+        #updating project sets
+        projectName = collection_projects.find_one({"Name": project})
+        if projectName:
+            x = hardwareSet["ID"]
+            #amount = collection_projects["Allocated"][x]
+            amount = collection_projects.find_one({"Name": project})["Allocated"][x]
         
-        if int(qty) >= 0: 
-            #if(qty > )
-            avilability = int(avilability) + int(qty) # IDK if this the right way to get this value
-            if (avilability <= int(capacity)):
-                collection_hardware.update_one({"name": name}, {"$set": {"availability": str(avilability)}}) 
-                response = {"availability": avilability}
+
+            if int(qty) >= 0 and int(qty) <= int(amount): 
+                #if(qty > )
+                availability = int(availability) + int(qty) # IDK if this the right way to get this value
+                projectHamount = int(amount) - int(qty)
+
+                if (availability <= int(capacity)):
+                    collection_hardware.update_one({"name": name}, {"$set": {"availability": str(availability)}})
+
+                    #collection_projects.update_one({"Name": project}, {"$set": {"Allocated"[x]: }})
+                    #updating project
+                    query = {"Name": project}
+                    update = {
+                        "$set": {
+                            f'Allocated.{x}': projectHamount
+                        }
+                    }
+                    collection_projects.update_one(query, update)
+
+                    #response = {"Access": True, "availability": availability, "capacity": capacity}
+                    response = {"Access": True}
+                else:
+                    collection_hardware.update_one({"name": name}, {"$set": {"availability": str(capacity)}}) 
+                    #response = {"Error Hardware set": "more than original capacity"}
+                    response = {"Access": True}
+                    #response = {"Access": True, "availability": availability, "capacity": capacity}
+                return response
+
+
             else:
-                collection_hardware.update_one({"name": name}, {"$set": {"availability": str(capacity)}}) 
-                response = {"Error Hardware set": "more than original capacity"}
-                print(response)
+                #response = {"Access": False, "Error": "qty error"}
+                response = {"Access": False}
+        
+            return response
 
-
-        else:
-            response = {"Error Hardware set": "qty error"}
-            print(response)
 
     else:
-        response = {"Error Hardware set": "name error"}
-        print(response)
+        response = {"Access": False}
+        #response = {"Access":False, "Error": "Hardware set name error"}
+        #response = {"Access": False, "availability": availability, "capacity": capacity}
+    
+        return response
+
     
 
     
-def checkOut(name, qty): #todo
+def checkOut(project, name, qty): #todo
+    print("initial")
+        
+    print(collection_hardware.find_one({"name": name}))
     hardwareSet = collection_hardware.find_one({"name": name})
+    
     if hardwareSet:
-        avilability = hardwareSet["availability"]
+        print("checkpoint 1")
+        availability = hardwareSet["availability"]
+        capacity = hardwareSet["capacity"]
 
-        if int(qty) >= 0:
-            if(qty > avilability):
-                avilability = int(avilability) - int(avilability)
- 
-            #avilability =  int(avilability) - int(qty)
-    
-                collection_hardware.update_one({"name": name}, {"$set": {"availability": str(avilability)}}) 
-                response = {"availability": avilability}
+        ##
+        projectName = collection_projects.find_one({"Name": project})
+        if projectName:
+            print("checkpoint 2")
+            x = hardwareSet["ID"]
+            print(x)
+            amount = collection_projects.find_one({"Name": project})["Allocated"][x]
+            print(amount)
+            print(qty)
+            print(int(qty))
+        #x = collection_projects.find_one({"name": project})["ID"]
+        #amount = collection_projects["Allocated"][x]
+
+            #if int(qty) >= 0 and int(qty) <= int(amount):
+            if int(qty) >= 0:
+                if(qty > availability):
+                    print("checkpoint 3A")
+                    
+                    
+                    #response = {"Access": False, "Error": "Quantity error"}
+                    response = {"Access": False}
+                else:
+                    print("checkpoint 3B")
+                    availability =  int(availability) - int(qty)
+                    print(availability)
+                    collection_hardware.update_one({"name": name}, {"$set": {"availability": str(availability)}})
+
+                    ##updating project hardware amount
+                    projectHamount = int(amount) + int(qty)
+                    query = {"Name": project}
+                    update = {
+                        "$set": {
+                            f'Allocated.{x}': projectHamount
+                        }
+                    }
+                    collection_projects.update_one(query, update)
+
+
+                    
+                    #response = {"Access": True, "availability": availability, "capacity": capacity}
+                    response = {"Access": True}
+                return response
+
             else:
-                avilability =  int(avilability) - int(qty)
+                print("this is no bueno")
+                #response = {"Access": False, "Error": "qty error"}
+                response = {"Access": False}
 
-
-                #print(avilability, 'here')
-                collection_hardware.update_one({"name": name}, {"$set": {"availability": str(avilability)}}) 
-
-                response = {"availability": avilability}
-        else:
-            response = {"Error Hardware set": "qty error"}
-            print(response)
+            return response
     else:
-        response = {"Error Hardware set": "name error"}
-        print(response)
-    
+        #response = {"Access": False, "Error": "Hardware set name error"}
+        response = {"Access": False}
     return response
 
 def availability_capacity(name): #todo
     hardwareSet = collection_hardware.find_one({"name": name})
     if hardwareSet:
-        avilability = hardwareSet["availability"]
+        availability = hardwareSet["availability"]
         capacity = hardwareSet["capacity"]
    
-        print("capacity: ", capacity)
-        response = {"Access": True, "availability": avilability, "capacity": capacity}
-        print(response)
+        #print("capacity: ", capacity)
+        response = {"Access": True, "availability": availability, "capacity": capacity}
+        #response = {"Access": True}
     else:
-        response = {"Access": False, "Error Hardware set": "error" }
-        print(response)
+        response = {"Access": False, "Error": "Hardware set name error" }
+        #print(response)
         
     return response
 
 
-
+'''
 def main():
     #queryHWSet1Availability()
     projectHardware_name = input("enter projectHardware: ")
     availability_capacity(projectHardware_name)
+    project_name = input("enter projectname: ")
     in_0 = input("enter amount checkIn: ")
-    checkIn(projectHardware_name, in_0)
+    #checkIn(project_name, projectHardware_name, in_0)
+    checkOut(project_name, projectHardware_name, in_0)
     #checkOut(projectHardware_name, 30)
     #availability_capacity(projectHardware_name)
     #checkIn(projectHardware_name, 20)
     #availability_capacity(projectHardware_name)
+    
     in_1 = input("enter amount checkOut: ")
     checkOut(projectHardware_name, in_1)
-   
+    
    
     availability_capacity(projectHardware_name)
 
 if __name__ == "__main__":
     main()
+'''
