@@ -42,17 +42,13 @@ def does_project_IDexist(projectid):
     else:
         return True
 
-def create_project(name, description):
+def create_project(name, description, username ):
     if does_project_nameexist(name):
         response = {"Access": False}
         return response
-    
-    # if does_project_IDexist(projectid):
-    #     print("projectid taken")
-    #     return False
-    
+
     collection_projects.insert_one({"Name": name, "Description": description, "Users": []})
-    response = {"Access": True}
+    response = join_project(username, name)
     return response
 
 def join_project(username, projectName):
