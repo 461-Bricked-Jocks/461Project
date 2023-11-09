@@ -86,10 +86,27 @@ def checkIn(project, name, qty): #todo
                 else:
                     collection_hardware.update_one({"name": name}, {"$set": {"availability": str(capacity)}}) 
                     #response = {"Error Hardware set": "more than original capacity"}
+                    query = {"Name": project}   # Kiet Added as of 11/9
+                    update = {
+                        "$set": {
+                            f'Allocation.{x}': 0
+                        }
+                    }
+                    collection_projects.update_one(query, update)
                     response = {"Access": True}
                     #response = {"Access": True, "availability": availability, "capacity": capacity}
                 return response
 
+            elif qty > amount: # Kiet Added as of 11/9
+                availability += amount
+                collection_hardware.update_one({"name": name}, {"$set": {"availability": str(availability)}})
+                query = {"Name": project}
+                update = {
+                    "$set": {
+                        f'Allocation.{x}': 0
+                    }
+                }
+                collection_projects.update_one(query, update)
 
             else:
                 #response = {"Access": False, "Error": "qty error"}
