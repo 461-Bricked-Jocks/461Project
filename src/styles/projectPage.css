@@ -41,7 +41,7 @@ hr{
     text-align: center;
     margin-left: 10px;
     position:relative;
-    bottom: 50px;
+    bottom: 20px;
 
 }
 .Button{
@@ -61,14 +61,12 @@ hr{
     border-width: 5px;
 }.leave{
     color: #000000;
-    position: relative;
-    left: 600px;
+    position: absolute;
     font-size: x-large;
-    bottom: 70px;
-    border-width: 2px;
     border-color: #BF5700;
     border-radius: 5px;
     background-color: #ed8632;
+    right: 40px;
 }
 #HWSets{
     display: flex;
@@ -77,12 +75,33 @@ hr{
     bottom: 20px;
 }
 #createProj{
-    position: relative;
-    left:600px;
-    bottom: 50px;
-    font-size: large;
+    color: #000000;
+    position: absolute;
+    font-size: x-large;
+    right: 130px;
+    top: 10px;
+    border-color: #BF5700;
+    border-radius: 5px;
+    background-color: #ed8632;
+}
+#logOut{
+    color: #000000;
+    position: absolute;
+    font-size: x-large;
+    right: 30px;
+    top: 10px;
+    border-color: #BF5700;
+    border-radius: 5px;
+    background-color: #ed8632;
 }
 
 .HWSet{
        margin: 5px;
 }
+/* }
+#createProj{
+    color: #BF5700;
+    position: relative;
+    left: 10px;
+    bottom: 20px;
+} */

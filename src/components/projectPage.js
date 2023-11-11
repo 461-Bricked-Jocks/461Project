@@ -51,6 +51,9 @@ class ProjectPage extends React.Component{
     create(){
         window.location.replace(`/Projects?Username=${this.state.user}`)
     }
+    logOut(){
+        window.location.replace(`/`)
+    }
 
 
     render(){
@@ -60,7 +63,8 @@ class ProjectPage extends React.Component{
                     <header>
                         <h1>Projects</h1>
                         <button id='createProj' onClick={this.create}>Create/Join Project</button>
-                        <hr></hr>
+                        <button id='logOut' onClick={this.logOut}>LogOut</button>
+                        {/* <hr id='horizantal'></hr> */}
                     </header>
                     <ul>
                         {this.state.projectsArr}

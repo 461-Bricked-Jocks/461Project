@@ -44,6 +44,7 @@ class Project extends React.Component{
             window.location.replace(`/Projects-Page?Username=${this.state.user}`)
             }else{
             alert("error leaving Project")
+            window.location.replace(`/Projects-Page?Username=${this.state.user}`)
             }
         }, 500);
     }

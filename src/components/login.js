@@ -88,8 +88,8 @@ class Login extends React.Component {
           <button onClick={this.login} id='loginBtn'>Login</button>
           {/* <button onClick={this.test}>test</button> */}
           <br/><br/>
-          <Link to={"/projects"}>Forgot Password</Link>
-          <br/><br/>
+          {/* <Link to={"/projects"}>Forgot Password</Link>
+          <br/><br/> */}
           <Link to='/Create-User'>Create New Account</Link> <br />
         </div>
       </div>

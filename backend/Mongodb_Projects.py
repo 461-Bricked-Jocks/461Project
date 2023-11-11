@@ -46,7 +46,7 @@ def create_project(name, description, username ):
         return response
     
     allocated = [0,0]
-    collection_projects.insert_one({"Name": name, "Description": description, "Users": [], "Allocated": allocated})
+    collection_projects.insert_one({"Name": name, "Description": description, "Users": [], "Allocation": allocated})
     response = join_project(username, name)
     print(response)
     return response
@@ -133,23 +133,23 @@ def projectList(username):
     
     mylist = []
     for project in project_list:
-        # print(project)
+        #print(project)
         info_list = []
         info_list.append(project)
         info_list.append(collection_projects.find_one({"Name": project})["Description"])
-        # print(info_list)
+        #print(f"info_list: {info_list}")
         
 
         collections_HW = client["Hardware"]
         x = collections_HW["hardware_set"]
         collections_HWS = x.find()
-        # print(collections_HWS)
+        #print(f"collections_HWS: {collections_HWS}")
 
         Sets = []
         tracker = 0
-        # print(tracker)
+        #print(tracker)
         for item in collections_HWS:
-            # print(item)
+            #print(f"tracker: {item}")
         
             hw = []
             hardwareData = Mongodb_Hardware.availability_capacity(item["name"])
@@ -167,6 +167,7 @@ def projectList(username):
         # print()
         
     response = {"projectList": mylist}
+    print(response)
     return response
 
 # if __name__ == '__main__':
