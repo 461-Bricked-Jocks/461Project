@@ -53,7 +53,7 @@ def create_project(name, description, username ):
 
 def join_project(username, projectName):
     if  username in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
-        response = {"Access": False, "Message": "User Already In Project"}
+        response = {"Access": False}
         return response
     if (does_project_nameexist(projectName)):
         #print("this runs")
