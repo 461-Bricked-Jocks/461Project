@@ -43,10 +43,10 @@ class Project extends React.Component{
             window.alert(`successfully left Project: ${this.props.name}`)
             window.location.replace(`/Projects-Page?Username=${this.state.user}`)
             }else{
-            alert("error leaving Project")
-            window.location.replace(`/Projects-Page?Username=${this.state.user}`)
+            alert("error: Cannot Leave project if you are the only user in project")
+            // window.location.replace(`/Projects-Page?Username=${this.state.user}`)
             }
-        }, 500);
+        }, 700);
     }
 
     render(){

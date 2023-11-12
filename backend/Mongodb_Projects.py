@@ -37,9 +37,9 @@ def does_project_nameexist(name):
 
 def create_project(name, description, username ):
 
-    print(name)
-    print(description)
-    print(username)
+    # print(name)
+    # print(description)
+    # print(username)
 
     if does_project_nameexist(name):
         response = {"Access": False}
@@ -52,21 +52,21 @@ def create_project(name, description, username ):
     return response
 
 def join_project(username, projectName):
-    # if  username in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
-    #     response = {"Access": False, "Message": "User Already In Project"}
-    #     return response
+    if  username in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
+        response = {"Access": False, "Message": "User Already In Project"}
+        return response
     if (does_project_nameexist(projectName)):
-        print("this runs")
+        #print("this runs")
         data = collection_projects.find_one({"Name": projectName})["_id"]
         query = {"_id": data}
-        print(query)
+        #print(query)
         update = {
             "$push": {
                 "Users": username
             }
         }
         collection_projects.update_one(query, update)
-        print("error1")
+        #print("error1")
         
         collections = client["Users"] #name of the database
         collection_users = collections["user_password"] #name of collection
@@ -78,7 +78,7 @@ def join_project(username, projectName):
             }
         }
         collection_users.update_one(query, update)
-        print("error2")
+        #print("error2")
         response = {"Access": True }
         return response
     else:
@@ -86,11 +86,11 @@ def join_project(username, projectName):
         return response
     
 def leave_project(username, projectName):
-    print("hello")
-    print(len(collection_projects.find_one({"Name": projectName})["Users"]))
+    # print("hello")
+    # print(len(collection_projects.find_one({"Name": projectName})["Users"]))
     if len(collection_projects.find_one({"Name": projectName})["Users"]) == 1:
         print("first if")
-        response = {"Access": False}
+        response = {"Access": False , "error" : "Cannot leave project if you are the only one in Project"}
         return response
     # if  username not in collection_projects.find_one({"Name": projectName})["Users"]: # Unused?
     #     print("second if")
@@ -167,7 +167,7 @@ def projectList(username):
         # print()
         
     response = {"projectList": mylist}
-    print(response)
+    #print(response)
     return response
 
 # if __name__ == '__main__':

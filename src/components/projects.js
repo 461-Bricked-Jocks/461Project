@@ -26,7 +26,7 @@ class Projects extends React.Component {
 
       nameHandler(){
         var newName = document.getElementById("name").value
-        console.log("User is trying to create project with name: ", newName)
+        //console.log("User is trying to create project with name: ", newName)
         this.setState({
             name: newName
         })
@@ -34,7 +34,7 @@ class Projects extends React.Component {
 
       descriptionHandler(){
         var newDescription = document.getElementById("description").value
-        console.log("User is trying to create project with description: ", newDescription)
+        //console.log("User is trying to create project with description: ", newDescription)
         this.setState({
           description: newDescription
         })
@@ -42,7 +42,7 @@ class Projects extends React.Component {
 
       createProjectIDHandler(){
         var newCreateProjectIDHandler = document.getElementById("createProjectID").value
-        console.log("User is trying to create project id: ", newCreateProjectIDHandler)
+        //console.log("User is trying to create project id: ", newCreateProjectIDHandler)
         this.setState({
           createProjectID: newCreateProjectIDHandler
         })
@@ -50,7 +50,7 @@ class Projects extends React.Component {
 
       joinExistingProjectIDHandler(){
         var newJoinExistingProjectID = document.getElementById("joinExistingProjectID").value
-        console.log("User is trying to join project id: ", newJoinExistingProjectID)
+        //console.log("User is trying to join project id: ", newJoinExistingProjectID)
         this.setState({
           joinExistingProjectID: newJoinExistingProjectID
         })
@@ -77,21 +77,19 @@ class Projects extends React.Component {
           .then((createProjectSuccess) => {
             //whatever the doc sends me
             var Access = createProjectSuccess['Access']
-            console.log(Access)
             this.setState({
                 createProjectSuccess : Access
             })
           })
           setTimeout(() => {
-            //need to redirect to other page
             if(this.state.createProjectSuccess === true){
               window.alert("successfully created project")
               // window.location.replace(`/Projects?ProjectName=${this.state.name}&Description=${this.state.description}&ProjectID=${this.state.createProjectID}`)
               
             }else{
-              alert("Cannot Sucessfully Create New Project")
+              alert("Project already exists")
             }
-          }, 500); // 2000 milliseconds = 2 seconds
+          }, 700); // 2000 milliseconds = 2 seconds
           
     
     
@@ -115,7 +113,7 @@ class Projects extends React.Component {
           .then((joinProjectSuccess) => {
             //whatever the doc sends me
             var Access = joinProjectSuccess['Access']
-            console.log(Access)
+            //console.log(Access)
             this.setState({
                 joinProjectSuccess : Access
             })
@@ -126,9 +124,9 @@ class Projects extends React.Component {
               window.alert("successfully joined project")
               // window.location.replace(`/Projects?joinExistingProjectID=${this.state.joinExistingProjectID}`)
             }else{
-              alert("Cannot Successfully Join the Project ID:" , this.state.joinExistingProjectID)
+              alert(`You are already in project: ${this.state.joinExistingProjectID} or project does not exist`)
             }
-          }, 500); // 2000 milliseconds = 2 seconds
+          }, 700); // 2000 milliseconds = 2 seconds
           
     
     
@@ -139,9 +137,9 @@ class Projects extends React.Component {
         const username = params.get('Username');
         const password = params.get('Password');
         const queryString = window.location.search;
-        console.log(queryString)
-        console.log(username);
-        console.log(password);
+        // console.log(queryString)
+        // console.log(username);
+        // console.log(password);
     }
 
     render() {
